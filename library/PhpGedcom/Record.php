@@ -19,6 +19,8 @@ namespace PhpGedcom;
  */
 abstract class Record
 {
+    protected $custom = array();
+
     /**
      *
      */
@@ -92,5 +94,29 @@ abstract class Record
     public function hasAttribute($var)
     {
         return property_exists($this, '_' . $var) || property_Exists($this, $var);
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * @return $this
+     */
+    public function setCustomField($name, $value)
+    {
+        $this->custom[strtolower($name)] = trim($value);
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public function getCustomField($name)
+    {
+        if (isset($this->custom[strtolower($name)])) {
+            return $this->custom[strtolower($name)];
+        }
+
+        return null;
     }
 }

@@ -82,7 +82,11 @@ class Subm extends \PhpGedcom\Parser\Component
                     $subm->addLang(trim($record[2]));
                     break;
                 default:
-                    $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+                    if (self::hasCustomField($recordType)) {
+                        $subm->setCustomField($recordType, trim($record[2]));
+                    } else {
+                        $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+                    }
             }
 
             $parser->forward();

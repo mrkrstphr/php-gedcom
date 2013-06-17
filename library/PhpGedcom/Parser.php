@@ -53,6 +53,8 @@ class Parser
      *
      */
     protected $_returnedLine    = '';
+
+    protected static $customFields = array();
     
     /**
      *
@@ -293,5 +295,10 @@ class Parser
         }
         
         return $this->getGedcom();
+    }
+
+    public function addCustomField($namespace, $field)
+    {
+        self::$customFields[$namespace] = $field;
     }
 }

@@ -27,4 +27,9 @@ abstract class Component
     {
         
     }
+
+    public static function hasCustomField($name)
+    {
+        return true;
+    }
 }

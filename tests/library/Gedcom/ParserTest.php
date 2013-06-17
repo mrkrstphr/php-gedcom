@@ -14,6 +14,7 @@
 
 namespace PhpGedcomTest;
 
+use PhpGedcom\Gedcom;
 use PhpGedcom\Parser;
 
 /**
@@ -267,5 +268,40 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($firstNote->getChan()->getDate(), '24 May 1999');
         $this->assertEquals($firstNote->getChan()->getTime(), '16:39:55');
+    }
+
+    /**
+     *
+     */
+    public function testCustomFields()
+    {
+        $parser = new Parser();
+        $parser->addCustomField('Subm', 'EMAIL');
+
+        $contents = <<<GEDCOM
+0 HEAD
+1 SUBM @SBM1@
+0 @SBM1@ SUBM
+1 NAME Sample Submitter
+1 ADDR 123 AnySt
+2 CITY City
+2 STAE ST
+2 POST 00000
+2 CTRY US
+1 PHON 15555555555
+1 EMAIL sample.submitter@example.com
+1 LANG English
+GEDCOM;
+        $file = sys_get_temp_dir() . '/sample.ged';
+        file_put_contents($file, $contents);
+
+        $gedcom = $parser->parse($file);
+
+        $this->assertCount(1, $gedcom->getSubm());
+        $subm = $gedcom->getSubm();
+        $subm = reset($subm);
+
+        $this->assertInstanceOf('PhpGedcom\Record\Subm', $subm);
+        $this->assertEquals('sample.submitter@example.com', $subm->getCustomField('EMAIL'));
     }
 }
