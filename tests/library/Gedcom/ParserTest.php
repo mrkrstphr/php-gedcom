@@ -54,12 +54,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testRecordCounts()
     {
-        $this->assertEquals(count($this->gedcom->getIndi()), 15);
-        $this->assertEquals(count($this->gedcom->getFam()), 7);
-        $this->assertEquals(count($this->gedcom->getSour()), 2);
-        $this->assertEquals(count($this->gedcom->getNote()), 33);
-        $this->assertEquals(count($this->gedcom->getObje()), 1);
-        $this->assertEquals(count($this->gedcom->getRepo()), 1);
+        $this->assertCount(15, $this->gedcom->getIndi());
+        $this->assertCount(7, $this->gedcom->getFam());
+        $this->assertCount(2, $this->gedcom->getSour());
+        $this->assertCount(33, $this->gedcom->getNote());
+        $this->assertCount(1, $this->gedcom->getObje());
+        $this->assertCount(1, $this->gedcom->getRepo());
     }
 
     /**
@@ -69,49 +69,49 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $head = $this->gedcom->getHead();
 
-        $this->assertEquals($head->getSour()->getSour(), 'GEDitCOM');
-        $this->assertEquals($head->getSour()->getName(), 'GEDitCOM');
-        $this->assertEquals($head->getSour()->getVers(), '2.9.4');
-        $this->assertEquals($head->getSour()->getCorp()->getCorp(), 'RSAC Software');
+        $this->assertEquals('GEDitCOM', $head->getSour()->getSour());
+        $this->assertEquals('GEDitCOM', $head->getSour()->getName());
+        $this->assertEquals('2.9.4', $head->getSour()->getVers());
+        $this->assertEquals('RSAC Software', $head->getSour()->getCorp()->getCorp());
         $this->assertEquals(
-            $head->getSour()->getCorp()->getAddr()->getAddr(),
-            "7108 South Pine Cone Street\nSalt Lake City, UT 84121\nUSA"
+            "7108 South Pine Cone Street\nSalt Lake City, UT 84121\nUSA",
+            $head->getSour()->getCorp()->getAddr()->getAddr()
         );
-        $this->assertEquals($head->getSour()->getCorp()->getAddr()->getCity(), 'Salt Lake City');
-        $this->assertEquals($head->getSour()->getCorp()->getAddr()->getStae(), 'UT');
-        $this->assertEquals($head->getSour()->getCorp()->getAddr()->getPost(), '84121');
-        $this->assertEquals($head->getSour()->getCorp()->getAddr()->getCtry(), 'USA');
+        $this->assertEquals('Salt Lake City', $head->getSour()->getCorp()->getAddr()->getCity());
+        $this->assertEquals('UT', $head->getSour()->getCorp()->getAddr()->getStae());
+        $this->assertEquals('84121', $head->getSour()->getCorp()->getAddr()->getPost());
+        $this->assertEquals('USA', $head->getSour()->getCorp()->getAddr()->getCtry());
 
         $phon = $head->getSour()->getCorp()->getPhon();
 
-        $this->assertEquals($phon[0], '+1-801-942-7768');
-        $this->assertEquals($phon[1], '+1-801-555-1212');
-        $this->assertEquals($phon[2], '+1-801-942-1148 (FAX) (last one!)');
+        $this->assertEquals('+1-801-942-7768', $phon[0]);
+        $this->assertEquals('+1-801-555-1212', $phon[1]);
+        $this->assertEquals('+1-801-942-1148 (FAX) (last one!)', $phon[2]);
 
-        $this->assertEquals($head->getSour()->getData()->getData(), 'Name of source data');
-        $this->assertEquals($head->getSour()->getData()->getDate(), '1 JAN 1998');
-        $this->assertEquals($head->getSour()->getData()->getCopr(), 'Copyright of source data');
+        $this->assertEquals('Name of source data', $head->getSour()->getData()->getData());
+        $this->assertEquals('1 JAN 1998', $head->getSour()->getData()->getDate());
+        $this->assertEquals('Copyright of source data', $head->getSour()->getData()->getCopr());
 
-        $this->assertEquals($head->getSubm(), 'SUBMITTER');
-        $this->assertEquals($head->getSubn(), 'SUBMISSION');
+        $this->assertEquals('SUBMITTER', $head->getSubm());
+        $this->assertEquals('SUBMISSION', $head->getSubn());
 
-        $this->assertEquals($head->getDest(), 'ANSTFILE');
+        $this->assertEquals('ANSTFILE', $head->getDest());
 
-        $this->assertEquals($head->getDate()->getDate(), '1 JAN 1998');
-        $this->assertEquals($head->getDate()->getTime(), '13:57:24.80');
+        $this->assertEquals('1 JAN 1998', $head->getDate()->getDate());
+        $this->assertEquals('13:57:24.80', $head->getDate()->getTime());
 
-        $this->assertEquals($head->getFile(), 'TGC55C.ged');
+        $this->assertEquals('TGC55C.ged', $head->getFile());
 
-        $this->assertEquals($head->getGedc()->getVers(), '5.5');
-        $this->assertEquals($head->getGedc()->getForm(), 'LINEAGE-LINKED');
+        $this->assertEquals('5.5', $head->getGedc()->getVers());
+        $this->assertEquals('LINEAGE-LINKED', $head->getGedc()->getForm());
 
-        $this->assertEquals($head->getLang(), 'English');
+        $this->assertEquals('English', $head->getLang());
 
-        $this->assertEquals($head->getChar()->getChar(), 'ANSEL');
-        $this->assertEquals($head->getChar()->getVers(), 'ANSI Z39.47-1985');
+        $this->assertEquals('ANSEL', $head->getChar()->getChar());
+        $this->assertEquals('ANSI Z39.47-1985', $head->getChar()->getVers());
 
-        $this->assertEquals($head->getPlac()->getForm(), 'City, County, State, Country');
-        $this->assertEquals($head->getSubn(), 'SUBMISSION');
+        $this->assertEquals('City, County, State, Country', $head->getPlac()->getForm());
+        $this->assertEquals('SUBMISSION', $head->getSubn());
     }
 
     /**
@@ -138,69 +138,69 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $subm = $this->gedcom->getSubm();
 
-        $this->assertEquals($subm['SUBMITTER']->getSubm(), 'SUBMITTER');
-        $this->assertEquals($subm['SUBMITTER']->getName(), 'John A. Nairn');
+        $this->assertEquals('SUBMITTER', $subm['SUBMITTER']->getSubm());
+        $this->assertEquals('John A. Nairn', $subm['SUBMITTER']->getName());
         $this->assertEquals(
-            $subm['SUBMITTER']->getAddr()->getAddr(),
             "Submitter address line 1\n" .
             "Submitter address line 2\n" .
             "Submitter address line 3\n" .
-            "Submitter address line 4"
+            "Submitter address line 4",
+            $subm['SUBMITTER']->getAddr()->getAddr()
         );
 
-        $this->assertEquals($subm['SUBMITTER']->getAddr()->getAdr1(), 'Submitter address line 1');
-        $this->assertEquals($subm['SUBMITTER']->getAddr()->getAdr2(), 'Submitter address line 2');
-        $this->assertEquals($subm['SUBMITTER']->getAddr()->getCity(), 'Submitter address city');
-        $this->assertEquals($subm['SUBMITTER']->getAddr()->getStae(), 'Submitter address state');
-        $this->assertEquals($subm['SUBMITTER']->getAddr()->getPost(), 'Submitter address ZIP code');
-        $this->assertEquals($subm['SUBMITTER']->getAddr()->getCtry(), 'Submitter address country');
+        $this->assertEquals('Submitter address line 1', $subm['SUBMITTER']->getAddr()->getAdr1());
+        $this->assertEquals('Submitter address line 2', $subm['SUBMITTER']->getAddr()->getAdr2());
+        $this->assertEquals('Submitter address city', $subm['SUBMITTER']->getAddr()->getCity());
+        $this->assertEquals('Submitter address state', $subm['SUBMITTER']->getAddr()->getStae());
+        $this->assertEquals('Submitter address ZIP code', $subm['SUBMITTER']->getAddr()->getPost());
+        $this->assertEquals('Submitter address country', $subm['SUBMITTER']->getAddr()->getCtry());
 
         $phon = $subm['SUBMITTER']->getPhon();
-        $this->assertEquals($phon[0]->getPhon(), 'Submitter phone number 1');
-        $this->assertEquals($phon[1]->getPhon(), 'Submitter phone number 2');
-        $this->assertEquals($phon[2]->getPhon(), 'Submitter phone number 3 (last one!)');
+        $this->assertEquals('Submitter phone number 1', $phon[0]->getPhon());
+        $this->assertEquals('Submitter phone number 2', $phon[1]->getPhon());
+        $this->assertEquals('Submitter phone number 3 (last one!)', $phon[2]->getPhon());
 
         $lang = $subm['SUBMITTER']->getLang();
-        $this->assertEquals($lang[0], 'English');
-        $this->assertEquals($subm['SUBMITTER']->getChan()->getDate(), '7 Sep 2000');
-        $this->assertEquals($subm['SUBMITTER']->getChan()->getTime(), '8:35:36');
-        $this->assertEquals($subm['SUBMITTER']->getRfn(), 'Submitter Registered RFN');
-        $this->assertEquals($subm['SUBMITTER']->getRin(), '1');
+        $this->assertEquals('English', $lang[0]);
+        $this->assertEquals('7 Sep 2000', $subm['SUBMITTER']->getChan()->getDate());
+        $this->assertEquals('8:35:36', $subm['SUBMITTER']->getChan()->getTime());
+        $this->assertEquals('Submitter Registered RFN', $subm['SUBMITTER']->getRfn());
+        $this->assertEquals('1', $subm['SUBMITTER']->getRin());
 
         $obje = current($subm['SUBMITTER']->getObje());
-        $this->assertEquals($obje->getForm(), 'jpeg');
-        $this->assertEquals($obje->getTitl(), 'Submitter Multimedia File');
-        $this->assertEquals($obje->getFile(), 'ImgFile.JPG');
+        $this->assertEquals('jpeg', $obje->getForm());
+        $this->assertEquals('Submitter Multimedia File', $obje->getTitl());
+        $this->assertEquals('ImgFile.JPG', $obje->getFile());
 
         $note = current($obje->getNote());
-        $this->assertEquals($note->getNote(), 'N1');
+        $this->assertEquals('N1', $note->getNote());
 
 
-        $this->assertEquals($subm['SM2']->getSubm(), 'SM2');
-        $this->assertEquals($subm['SM2']->getName(), 'Secondary Submitter');
+        $this->assertEquals('SM2', $subm['SM2']->getSubm());
+        $this->assertEquals('Secondary Submitter', $subm['SM2']->getName());
         $this->assertEquals(
-            $subm['SM2']->getAddr()->getAddr(),
             "Secondary Submitter Address 1\n" .
-            "Secondary Submitter Address 2"
+            "Secondary Submitter Address 2",
+            $subm['SM2']->getAddr()->getAddr()
         );
 
         $lang = $subm['SM2']->getLang();
-        $this->assertEquals($lang[0], 'English');
-        $this->assertEquals($subm['SM2']->getChan()->getDate(), '12 Mar 2000');
-        $this->assertEquals($subm['SM2']->getChan()->getTime(), '10:38:33');
-        $this->assertEquals($subm['SM2']->getRin(), '2');
+        $this->assertEquals('English', $lang[0]);
+        $this->assertEquals('12 Mar 2000', $subm['SM2']->getChan()->getDate());
+        $this->assertEquals('10:38:33', $subm['SM2']->getChan()->getTime());
+        $this->assertEquals('2', $subm['SM2']->getRin());
 
 
-        $this->assertEquals($subm['SM3']->getSubm(), 'SM3');
-        $this->assertEquals($subm['SM3']->getName(), 'H. Eichmann');
+        $this->assertEquals('SM3', $subm['SM3']->getSubm());
+        $this->assertEquals('H. Eichmann', $subm['SM3']->getName());
         $this->assertEquals(
-            $subm['SM3']->getAddr()->getAddr(),
             "email: h.eichmann@@mbox.iqo.uni-hannover.de\n" .
-            "or: heiner_eichmann@@h.maus.de (no more than 16k!!!!)"
+            "or: heiner_eichmann@@h.maus.de (no more than 16k!!!!)",
+            $subm['SM3']->getAddr()->getAddr()
         );
-        $this->assertEquals($subm['SM3']->getChan()->getDate(), '13 Jun 2000');
-        $this->assertEquals($subm['SM3']->getChan()->getTime(), '17:07:32');
-        $this->assertEquals($subm['SM3']->getRin(), '3');
+        $this->assertEquals('13 Jun 2000', $subm['SM3']->getChan()->getDate());
+        $this->assertEquals('17:07:32', $subm['SM3']->getChan()->getTime());
+        $this->assertEquals('3', $subm['SM3']->getRin());
     }
 
     /**
@@ -236,7 +236,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * Test that source information is parsed correctly.
      */
     public function testSour()
     {
@@ -244,28 +244,28 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $secondSource = $sour['SR2'];
 
-        $this->assertEquals($secondSource->getSour(), 'SR2');
-        $this->assertEquals($secondSource->getTitl(), 'All I Know About GEDCOM, I Learned on the Internet');
-        $this->assertEquals($secondSource->getAbbr(), 'What I Know About GEDCOM');
-        $this->assertEquals($secondSource->getAuth(), 'Second Source Author');
-        $this->assertEquals($secondSource->getChan()->getDate(), '11 Jan 2001');
-        $this->assertEquals($secondSource->getChan()->getTime(), '16:21:39');
-        $this->assertEquals($secondSource->getRin(), '2');
+        $this->assertEquals('SR2', $secondSource->getSour());
+        $this->assertEquals('All I Know About GEDCOM, I Learned on the Internet', $secondSource->getTitl());
+        $this->assertEquals('What I Know About GEDCOM', $secondSource->getAbbr());
+        $this->assertEquals('Second Source Author', $secondSource->getAuth());
+        $this->assertEquals('11 Jan 2001', $secondSource->getChan()->getDate());
+        $this->assertEquals('16:21:39', $secondSource->getChan()->getTime());
+        $this->assertEquals('2', $secondSource->getRin());
     }
 
     /**
-     *
+     * Test that notes are parsed successfully.
      */
     public function testNote()
     {
         $firstNote = current($this->gedcom->getNote());
 
         $this->assertEquals(
-            $firstNote->getNote(),
-            'Test link to a graphics file about the main Submitter of this file.'
+            'Test link to a graphics file about the main Submitter of this file.',
+            $firstNote->getNote()
         );
 
-        $this->assertEquals($firstNote->getChan()->getDate(), '24 May 1999');
-        $this->assertEquals($firstNote->getChan()->getTime(), '16:39:55');
+        $this->assertEquals('24 May 1999', $firstNote->getChan()->getDate());
+        $this->assertEquals('16:39:55', $firstNote->getChan()->getTime());
     }
 }
