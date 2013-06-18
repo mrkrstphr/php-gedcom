@@ -269,9 +269,9 @@ class Parser
                
                 if (trim($record[1]) == 'HEAD') {
                     $this->_gedcom->setHead($this->parseRecord());
-                    //Parser\Head::parse($this);
                 } else if (isset($record[2]) && trim($record[2]) == 'SUBN') {
-                    Parser\Subn::parse($this);
+                    //Parser\Subn::parse($this);
+                    $this->_gedcom->setSubn($this->parseRecord());
                 } else if (isset($record[2]) && trim($record[2]) == 'SUBM') {
                     Parser\Subm::parse($this);
                 } else if (isset($record[2]) && $record[2] == 'SOUR') {
@@ -308,14 +308,30 @@ class Parser
     public function parseRecord()
     {
         $record = $this->getCurrentLineRecord();
-        $identifier = $this->normalizeIdentifier($record[1]);
         $depth = (int)$record[0];
+        $identifier = $this->normalizeIdentifier($record[1]);
+
+        // The nodeType is the piece of data we are trying to store (NAME, DATE, SOUR, etc).
+        $nodeType = trim($record[1]);
+
+        $data = null;
+
+        // At 0 level depth, the identifier comes after the nodeType (except for HEAD);
+        if ($depth == 0 && $identifier !== 'HEAD') {
+            $nodeType = trim($record[2]);
+            $data = $this->prepareData($record[1]);
+        } else if ($depth > 0 && isset($record[2])) {
+            $data = $this->prepareData($record[2]);
+        }
+
+
+
 
         // Keep track of the previous (non CONT or CONC) node for concatenated values:s
         $previousNode = '';
 
         // Push this node onto the stack of our namespace path:
-        array_push($this->path, ucfirst(strtolower($identifier)));
+        array_push($this->path, ucfirst(strtolower($nodeType)));
 
         // Implode the stack to find the fully qualified namespace of the node:
         $className = '\\PhpGedcom\Record\\' . implode('\\', $this->path);
@@ -324,29 +340,33 @@ class Parser
             throw new \Exception('Unknown object type: ' . $className);
         }
 
+        // Create the object from our fully qualified namespace we've built:
         $object = new $className();
         $classReflector = new \ReflectionClass(get_class($object));
 
-        if (isset($record[2]) && $classReflector->hasProperty(strtolower($identifier))) {
-            $property = $classReflector->getProperty(strtolower($identifier));
+        if (isset($record[2]) && $classReflector->hasProperty(strtolower($nodeType))) {
+            $property = $classReflector->getProperty(strtolower($nodeType));
             $annotations = new Annotations($property);
 
             if ($annotations->hasAnnotation('var')) {
                 $param = explode(' ', $annotations['var']);
                 if (in_array($param[0], array('string', 'integer', 'float'))) {
-                    if ($classReflector->hasMethod('set' . ucfirst(strtolower($identifier)))) {
-                        $value = $this->prepareData($record[2]);
-                        call_user_func(array($object, 'set' . $identifier), $value);
+                    if ($classReflector->hasMethod('set' . ucfirst(strtolower($nodeType)))) {
+                        call_user_func(array($object, 'set' . $nodeType), $data);
                     }
 
                     // if we actually have content here, make sure to mark it as the previous node for
                     // concatenation sake
-                    $previousNode = ucfirst(strtolower($identifier));
+                    $previousNode = ucfirst(strtolower($nodeType));
                 }
             } else {
 
             }
         }
+
+
+
+
 
         $this->forward();
 

@@ -121,14 +121,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $subn = $this->gedcom->getSubn();
 
-        $this->assertEquals($subn->getSubn(), 'SUBMISSION');
-        $this->assertEquals($subn->getSubm(), 'SUBMITTER');
-        $this->assertEquals($subn->getFamf(), 'NameOfFamilyFile');
-        $this->assertEquals($subn->getTemp(), 'Abbreviated Temple Code');
-        $this->assertEquals($subn->getAnce(), '1');
-        $this->assertEquals($subn->getDesc(), '1');
-        $this->assertEquals($subn->getOrdi(), 'yes');
-        $this->assertEquals($subn->getRin(), '1');
+        $this->assertEquals('SUBMISSION', $subn->getSubn());
+        $this->assertEquals('SUBMITTER', $subn->getSubm());
+        $this->assertEquals('NameOfFamilyFile', $subn->getFamf());
+        $this->assertEquals('Abbreviated Temple Code', $subn->getTemp());
+        $this->assertEquals('1', $subn->getAnce());
+        $this->assertEquals('1', $subn->getDesc());
+        $this->assertEquals('yes', $subn->getOrdi());
+        $this->assertEquals('1', $subn->getRin());
     }
 
     /**
