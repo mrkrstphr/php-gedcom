@@ -6,7 +6,8 @@
     "homepage": "http://github.com/mrkrstphr/php-gedcom",
     "license": "GPL-3.0",
     "require": {
-        "php": ">=5.3"
+        "php": ">=5.3",
+        "zeptech/annotations": "1.1.0"
     },
     "require-dev": {
         "phpunit/PHPUnit": "3.7.*",

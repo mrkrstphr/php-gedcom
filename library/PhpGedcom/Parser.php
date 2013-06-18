@@ -14,6 +14,8 @@
 
 namespace PhpGedcom;
 
+use zpt\anno\Annotations;
+
 /**
  *
  */
@@ -53,7 +55,9 @@ class Parser
      *
      */
     protected $_returnedLine    = '';
-    
+
+    protected $path = array();
+
     /**
      *
      */
@@ -251,9 +255,11 @@ class Parser
             if ($record === false) {
                 continue;
             }
-            
+
             $depth = (int)$record[0];
-            
+
+
+
             // We only process 0 level records here. Sub levels are processed
             // in methods for those data types (individuals, sources, etc)
             
@@ -262,7 +268,8 @@ class Parser
                 $identifier = $this->normalizeIdentifier($record[1]);
                
                 if (trim($record[1]) == 'HEAD') {
-                    Parser\Head::parse($this);
+                    $this->_gedcom->setHead($this->parseRecord());
+                    //Parser\Head::parse($this);
                 } else if (isset($record[2]) && trim($record[2]) == 'SUBN') {
                     Parser\Subn::parse($this);
                 } else if (isset($record[2]) && trim($record[2]) == 'SUBM') {
@@ -288,10 +295,223 @@ class Parser
             } else {
                 $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
             }
-            
+
             $this->forward();
         }
-        
+
         return $this->getGedcom();
+    }
+
+    /**
+     *
+     */
+    public function parseRecord()
+    {
+        $record = $this->getCurrentLineRecord();
+        $identifier = $this->normalizeIdentifier($record[1]);
+        $depth = (int)$record[0];
+
+        $previousNode = '';
+
+        $this->path[] = ucfirst(strtolower($identifier));
+
+        $className = '\\PhpGedcom\Record\\' . implode('\\', $this->path);
+
+        if (!class_exists($className, true)) {
+            throw new \Exception('Unknown object type: ' . $className);
+        }
+
+        //echo "--$record\n";
+
+        $object = new $className();
+        $classReflector = new \ReflectionClass(get_class($object));
+
+        if (isset($record[2]) && $classReflector->hasProperty(strtolower($identifier))) {
+            $property = $classReflector->getProperty(strtolower($identifier));
+            $annotations = new Annotations($property);
+
+            if ($annotations->hasAnnotation('var')) {
+                $param = explode(' ', $annotations['var']);
+                if (in_array($param[0], array('string', 'integer', 'float'))) {
+                    if ($classReflector->hasMethod('set' . ucfirst(strtolower($identifier)))) {
+                        call_user_func(array($object, 'set' . $identifier), trim($record[2]));
+                    }
+
+                    // if we actually have content here, make sure to mark it as the previous node for
+                    // concatenation sake
+                    $previousNode = ucfirst(strtolower($identifier));
+                }
+            } else {
+
+            }
+        }
+
+        //$head = new \PhpGedcom\Record\Head();
+
+        //$this->getGedcom()->setHead($head);
+
+        $this->forward();
+
+        while (!$this->eof()) {
+            $record = $this->getCurrentLineRecord();
+            $currentDepth = (int)$record[0];
+            $recordType = ucwords(strtolower(trim($record[1])));
+
+            if ($currentDepth <= $depth) {
+                $this->back();
+                break;
+            }
+
+            if ($recordType == 'Cont' || $recordType == 'Conc') {
+                if (!empty($previousNode)) {
+                    $currentValue = call_user_func(array($object, 'get' . $previousNode)) . "\n";
+
+                    if (!empty($record[2])) {
+                        $currentValue .= $record[2];
+                    }
+
+                    call_user_func(array($object, 'set' . $previousNode), $currentValue);
+                }
+            } else {
+                if ($classReflector->hasProperty(strtolower($recordType))) {
+                    $property = $classReflector->getProperty(strtolower($recordType));
+                    $annotations = new Annotations($property);
+
+                    if ($annotations->hasAnnotation('var')) {
+                        $param = explode(' ', $annotations['var']);
+
+                        if (in_array($param[0], array('string', 'integer', 'float'))) {
+                            if ($classReflector->hasMethod('set' . $recordType)) {
+                                call_user_func(array($object, 'set' . $recordType), trim($record[2]));
+                            } else {
+                                throw new \Exception('Missing setter for ' . $classReflector->getName() . '::' . $property->getName());
+                            }
+                        } elseif ($param[0] == 'array') {
+                            if ($classReflector->hasMethod('add' . $recordType)) {
+                                call_user_func(array($object, 'add' . $recordType), trim($record[2]));
+                            } else {
+                                throw new \Exception('Missing adder for ' . $classReflector->getName() . '::' . $property->getName());
+                            }
+                        } else {
+                            if ($classReflector->hasMethod('set' . $recordType)) {
+                                call_user_func(array($object, 'set' . $recordType), $this->parseRecord());
+                            } else {
+                                throw new \Exception('Missing adder for ' . $classReflector->getName() . '::' . $property->getName());
+                            }
+                        }
+                    } else {
+                        throw new \Exception('Missing @var docblock for ' . $classReflector->getName() . '::' . $recordType);
+                    }
+                } else {
+                    if ($recordType != '_hme') {
+                        throw new \Exception('Missing property for ' . $classReflector->getName() . '::' . $recordType);
+                    }
+                }
+            }
+
+            /*
+            if ($recordType == 'Cont') {
+                // TODO FIXME
+            } elseif ($classReflector->hasMethod('set' . $recordType)) {
+                $method = $classReflector->getMethod('set' . $recordType);
+                $annotations = new Annotations($method);
+
+                if ($annotations->hasAnnotation('param')) {
+                    $param = explode(' ', $annotations['param']);
+
+                    if (in_array($param[0], array('string', 'integer', 'float'))) {
+                        call_user_func(array($object, 'set' . $recordType), trim($record[2]));
+                    } elseif ($param[0] == 'array') {
+                        call_user_func
+                    } else {
+                        call_user_func(array($object, 'set' . $recordType), $this->parseRecord());
+                    }
+                } else {
+                    throw new \Exception($method->getName() . ' does not have a valid doc type');
+                }
+            } else {
+                throw new \Exception('No setter for ' . get_class($object) . '::' . $recordType);
+                $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+            }
+            */
+
+
+//            if (method_exists($head, 'set' . $recordType)) {
+//
+//                if (IS_SCALAR) {
+//                call_user_func(array($head, 'set' . $recordType), trim($record[2]));
+//                } elseif (class_exists(vartype)) {
+//
+//                }
+//            } else {
+//                $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+//            }
+
+            /*
+            switch ($recordType) {
+                case 'SOUR':
+                    $sour = \PhpGedcom\Parser\Head\Sour::parse($parser);
+                    $head->setSour($sour);
+                    break;
+                case 'DEST':
+                    $head->setDest(trim($record[2]));
+                    break;
+                case 'SUBM':
+                    $head->setSubm($parser->normalizeIdentifier($record[2]));
+                    break;
+                case 'SUBN':
+                    $head->setSubn($parser->normalizeIdentifier($record[2]));
+                    break;
+                case 'DEST':
+                    $head->setDest(trim($record[2]));
+                    break;
+                case 'FILE':
+                    $head->setFile(trim($record[2]));
+                    break;
+                case 'COPR':
+                    $head->setCopr(trim($record[2]));
+                    break;
+                case 'LANG':
+                    $head->setLang(trim($record[2]));
+                    break;
+                case 'DATE':
+                    $date = \PhpGedcom\Parser\Head\Date::parse($parser);
+                    $head->setDate($date);
+                    break;
+                case 'GEDC':
+                    $gedc = \PhpGedcom\Parser\Head\Gedc::parse($parser);
+                    $head->setGedc($gedc);
+                    break;
+                case 'CHAR':
+                    $char = \PhpGedcom\Parser\Head\Char::parse($parser);
+                    $head->setChar($char);
+                    break;
+                case 'PLAC':
+                    $plac = \PhpGedcom\Parser\Head\Plac::parse($parser);
+                    $head->setPlac($plac);
+                    break;
+                case 'NOTE':
+                    $head->setNote($parser->parseMultiLineRecord());
+                    break;
+                default:
+                    $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+            }
+            */
+
+            $this->forward();
+
+            if (!in_array($recordType, array('Conc', 'Cont'))) {
+                $previousNode = $recordType;
+            }
+        }
+
+//        echo "--{$this->path}\n";
+
+        array_pop($this->path);
+
+        //echo 'OBJECT:';
+        //print_r($object);
+
+        return $object;
     }
 }
