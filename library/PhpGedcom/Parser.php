@@ -311,17 +311,18 @@ class Parser
         $identifier = $this->normalizeIdentifier($record[1]);
         $depth = (int)$record[0];
 
+        // Keep track of the previous (non CONT or CONC) node for concatenated values:s
         $previousNode = '';
 
-        $this->path[] = ucfirst(strtolower($identifier));
+        // Push this node onto the stack of our namespace path:
+        array_push($this->path, ucfirst(strtolower($identifier)));
 
+        // Implode the stack to find the fully qualified namespace of the node:
         $className = '\\PhpGedcom\Record\\' . implode('\\', $this->path);
 
         if (!class_exists($className, true)) {
             throw new \Exception('Unknown object type: ' . $className);
         }
-
-        //echo "--$record\n";
 
         $object = new $className();
         $classReflector = new \ReflectionClass(get_class($object));
@@ -334,7 +335,8 @@ class Parser
                 $param = explode(' ', $annotations['var']);
                 if (in_array($param[0], array('string', 'integer', 'float'))) {
                     if ($classReflector->hasMethod('set' . ucfirst(strtolower($identifier)))) {
-                        call_user_func(array($object, 'set' . $identifier), trim($record[2]));
+                        $value = $this->prepareData($record[2]);
+                        call_user_func(array($object, 'set' . $identifier), $value);
                     }
 
                     // if we actually have content here, make sure to mark it as the previous node for
@@ -345,10 +347,6 @@ class Parser
 
             }
         }
-
-        //$head = new \PhpGedcom\Record\Head();
-
-        //$this->getGedcom()->setHead($head);
 
         $this->forward();
 
@@ -367,7 +365,7 @@ class Parser
                     $currentValue = call_user_func(array($object, 'get' . $previousNode)) . "\n";
 
                     if (!empty($record[2])) {
-                        $currentValue .= $record[2];
+                        $currentValue .= $this->prepareData($record[2]);
                     }
 
                     call_user_func(array($object, 'set' . $previousNode), $currentValue);
@@ -382,13 +380,13 @@ class Parser
 
                         if (in_array($param[0], array('string', 'integer', 'float'))) {
                             if ($classReflector->hasMethod('set' . $recordType)) {
-                                call_user_func(array($object, 'set' . $recordType), trim($record[2]));
+                                call_user_func(array($object, 'set' . $recordType), $this->prepareData($record[2]));
                             } else {
                                 throw new \Exception('Missing setter for ' . $classReflector->getName() . '::' . $property->getName());
                             }
                         } elseif ($param[0] == 'array') {
                             if ($classReflector->hasMethod('add' . $recordType)) {
-                                call_user_func(array($object, 'add' . $recordType), trim($record[2]));
+                                call_user_func(array($object, 'add' . $recordType), $this->prepareData($record[2]));
                             } else {
                                 throw new \Exception('Missing adder for ' . $classReflector->getName() . '::' . $property->getName());
                             }
@@ -403,49 +401,9 @@ class Parser
                         throw new \Exception('Missing @var docblock for ' . $classReflector->getName() . '::' . $recordType);
                     }
                 } else {
-                    if ($recordType != '_hme') {
-                        throw new \Exception('Missing property for ' . $classReflector->getName() . '::' . $recordType);
-                    }
+                    $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
                 }
             }
-
-            /*
-            if ($recordType == 'Cont') {
-                // TODO FIXME
-            } elseif ($classReflector->hasMethod('set' . $recordType)) {
-                $method = $classReflector->getMethod('set' . $recordType);
-                $annotations = new Annotations($method);
-
-                if ($annotations->hasAnnotation('param')) {
-                    $param = explode(' ', $annotations['param']);
-
-                    if (in_array($param[0], array('string', 'integer', 'float'))) {
-                        call_user_func(array($object, 'set' . $recordType), trim($record[2]));
-                    } elseif ($param[0] == 'array') {
-                        call_user_func
-                    } else {
-                        call_user_func(array($object, 'set' . $recordType), $this->parseRecord());
-                    }
-                } else {
-                    throw new \Exception($method->getName() . ' does not have a valid doc type');
-                }
-            } else {
-                throw new \Exception('No setter for ' . get_class($object) . '::' . $recordType);
-                $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
-            }
-            */
-
-
-//            if (method_exists($head, 'set' . $recordType)) {
-//
-//                if (IS_SCALAR) {
-//                call_user_func(array($head, 'set' . $recordType), trim($record[2]));
-//                } elseif (class_exists(vartype)) {
-//
-//                }
-//            } else {
-//                $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
-//            }
 
             /*
             switch ($recordType) {
@@ -505,13 +463,22 @@ class Parser
             }
         }
 
-//        echo "--{$this->path}\n";
-
+        // Now that we're done parsing this node, pop it off our namespace path:
         array_pop($this->path);
 
-        //echo 'OBJECT:';
-        //print_r($object);
-
         return $object;
+    }
+
+    /**
+     * @param string $value
+     * @return string
+     */
+    protected function prepareData($value)
+    {
+        if (substr($value, 0, 1) == '@' && substr($value, strlen($value) - 1) == '@') {
+            return $this->normalizeIdentifier($value);
+        }
+
+        return $value;
     }
 }
