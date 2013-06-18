@@ -15,10 +15,50 @@
 namespace PhpGedcom\Record\Head;
 
 /**
- *
+ * Class Date
+ * @package PhpGedcom\Record\Head
  */
 class Date extends \PhpGedcom\Record
 {
-    protected $_date = null;
-    protected $_time = null;
+    /**
+     * @var string
+     */
+    protected $date;
+
+    /**
+     * @var string
+     */
+    protected $time;
+
+    /**
+     * @param string $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string $time
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
 }

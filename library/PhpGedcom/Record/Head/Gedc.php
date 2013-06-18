@@ -15,17 +15,50 @@
 namespace PhpGedcom\Record\Head;
 
 /**
- *
+ * Class Gedc
+ * @package PhpGedcom\Record\Head
  */
 class Gedc extends \PhpGedcom\Record
 {
     /**
-     *
+     * @var string
      */
-    protected $_vers = null;
+    protected $vers;
     
     /**
-     *
+     * @var string
      */
-    protected $_form = null;
+    protected $form;
+
+    /**
+     * @param mixed $vers
+     */
+    public function setVers($vers)
+    {
+        $this->vers = $vers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVers()
+    {
+        return $this->vers;
+    }
+
+    /**
+     * @param mixed $form
+     */
+    public function setForm($form)
+    {
+        $this->form = $form;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
 }

@@ -15,21 +15,71 @@
 namespace PhpGedcom\Record\Head\Sour;
 
 /**
- *
+ * Class Corp
+ * @package PhpGedcom\Record\Head\Sour
  */
 class Corp extends \PhpGedcom\Record
 {
-    protected $_corp = null;
-    protected $_addr = null;
-    
-    protected $_phon = array();
+    /**
+     * @var string
+     */
+    protected $corp;
+
+    /**
+     * @var \PhpGedcom\Record\Addr
+     */
+    protected $addr;
+
+    /**
+     * @var array
+     */
+    protected $phon = array();
     
     /**
-     *
-     *
+     * @var string
      */
     public function addPhon($phon)
     {
-        $this->_phon[] = $phon;
+        $this->phon[] = $phon;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPhon()
+    {
+        return $this->phon;
+    }
+
+    /**
+     * @param string $corp
+     */
+    public function setCorp($corp)
+    {
+        $this->corp = $corp;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCorp()
+    {
+        return $this->corp;
+    }
+
+    /**
+     * @param \PhpGedcom\Record\Addr $addr
+     */
+    public function setAddr($addr)
+    {
+        $this->addr = $addr;
+    }
+
+    /**
+     * @return \PhpGedcom\Record\Addr
+     */
+    public function getAddr()
+    {
+        return $this->addr;
     }
 }

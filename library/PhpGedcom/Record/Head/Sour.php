@@ -15,42 +15,43 @@
 namespace PhpGedcom\Record\Head;
 
 /**
- *
+ * Class Sour
+ * @package PhpGedcom\Record\Head
  */
 class Sour extends \PhpGedcom\Record
 {
     /**
-     *
+     * @var string
      */
-    protected $_sour = null;
+    protected $sour;
     
     /**
-     *
+     * @var string
      */
-    protected $_vers = null;
+    protected $vers;
     
     /**
-     *
+     * @var string
      */
-    protected $_name = null;
+    protected $name;
     
     /**
-     *
+     * @var Sour\Corp
      */
-    protected $_corp = null;
+    protected $corp;
     
     /**
-     *
+     * @var Sour\Data
      */
-    protected $_data = null;
+    protected $data;
 
     /**
      *
      * @param Sour\Corp $corp
      */
-    public function setCorp(\PhpGedcom\Record\Head\Sour\Corp $corp)
+    public function setCorp(Sour\Corp $corp)
     {
-        $this->_corp = $corp;
+        $this->corp = $corp;
     }
     
     /**
@@ -59,24 +60,72 @@ class Sour extends \PhpGedcom\Record
      */
     public function getCorp()
     {
-        return $this->_corp;
+        return $this->corp;
     }
     
     /**
      * 
-     * @param \PhpGedcom\Record\Head\Sour\Data $data
+     * @param Sour\Data $data
      */
-    public function setData(\PhpGedcom\Record\Head\Sour\Data $data)
+    public function setData(Sour\Data $data)
     {
-        $this->_data = $data;
+        $this->data = $data;
     }
     
     /**
      *
-     * @return \PhpGedcom\Record\Head\Sour\Data
+     * @return Sour\Data
      */
     public function getData()
     {
-        return $this->_data;
+        return $this->data;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $sour
+     */
+    public function setSour($sour)
+    {
+        $this->sour = $sour;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSour()
+    {
+        return $this->sour;
+    }
+
+    /**
+     * @param string $vers
+     */
+    public function setVers($vers)
+    {
+        $this->vers = $vers;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVers()
+    {
+        return $this->vers;
     }
 }

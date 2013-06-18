@@ -15,12 +15,29 @@
 namespace PhpGedcom\Record\Head;
 
 /**
- *
+ * Class Plac
+ * @package PhpGedcom\Record\Head
  */
 class Plac extends \PhpGedcom\Record
 {
     /**
-     *
+     * @var string
      */
-    protected $_form = null;
+    protected $form;
+
+    /**
+     * @param string $form
+     */
+    public function setForm($form)
+    {
+        $this->form = $form;
+    }
+
+    /**
+     * @return string
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
 }

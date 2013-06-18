@@ -18,6 +18,45 @@ namespace PhpGedcom\Record\Head;
  */
 class Char extends \PhpGedcom\Record
 {
-    protected $_char = null;
-    protected $_vers = null;
+    /**
+     * @var string
+     */
+    protected $char;
+
+    /**
+     * @var string
+     */
+    protected $vers;
+
+    /**
+     * @param string $char
+     */
+    public function setChar($char)
+    {
+        $this->char = $char;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChar()
+    {
+        return $this->char;
+    }
+
+    /**
+     * @param string $vers
+     */
+    public function setVers($vers)
+    {
+        $this->vers = $vers;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVers()
+    {
+        return $this->vers;
+    }
 }
