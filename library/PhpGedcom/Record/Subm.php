@@ -59,11 +59,13 @@ class Subm extends Record implements Objectable
 
     /**
      * @var array
+     * @of Subm\Phon
      */
     protected $phon = array();
 
     /**
      * @var array
+     * @of Subm\ObjeRef
      */
     protected $obje = array();
 

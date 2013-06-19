@@ -22,32 +22,33 @@ class ObjeRef extends \PhpGedcom\Record implements Noteable
     /**
      *
      */
-    protected $_isRef   = false;
+    protected $_isRef;
     
     /**
      *
      */
-    protected $_obje    = null;
+    protected $_obje;
     
     /**
-     *
+     * @var string
      */
-    protected $_form    = null;
+    protected $form;
     
     /**
-     *
+     * @var string
      */
-    protected $_titl    = null;
+    protected $titl;
     
     /**
-     *
+     * @var string
      */
-    protected $_file    = null;
+    protected $file;
     
     /**
-     *
+     * @var array
+     * @of NoteRef
      */
-    protected $_note = array();
+    protected $note = array();
     
     /**
      *
@@ -71,5 +72,53 @@ class ObjeRef extends \PhpGedcom\Record implements Noteable
     public function addNote(\PhpGedcom\Record\NoteRef $note)
     {
         $this->_note[] = $note;
+    }
+
+    /**
+     * @param string $form
+     */
+    public function setForm($form)
+    {
+        $this->form = $form;
+    }
+
+    /**
+     * @return string
+     */
+    public function getForm()
+    {
+        return $this->form;
+    }
+
+    /**
+     * @param string $titl
+     */
+    public function setTitl($titl)
+    {
+        $this->titl = $titl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitl()
+    {
+        return $this->titl;
+    }
+
+    /**
+     * @param string $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 }
