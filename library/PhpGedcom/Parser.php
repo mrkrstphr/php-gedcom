@@ -17,45 +17,57 @@ namespace PhpGedcom;
 use zpt\anno\Annotations;
 
 /**
- *
+ * Class Parser
+ * @package PhpGedcom
  */
 class Parser
 {
     /**
+     * Stores a resource pointer to the file being parsed.
      *
+     * @var Resource
      */
-    protected $_file            = null;
+    protected $file = null;
     
     /**
+     * Stores the GEDCOM objecting being built.
      *
+     * @var \PhpGedcom\Record\Gedcom
      */
-    protected $_gedcom          = null;
+    protected $gedcom;
     
     /**
+     * Stores a list of errors encountered during the parsing process.
      *
+     * @var array
      */
-    protected $_errorLog        = array();
+    protected $errors = array();
     
     /**
-     *
+     * @var integer
      */
-    protected $_linesParsed     = 0;
+    protected $linesParsed = 0;
     
     /**
-     *
+     * @var string
      */
-    protected $_line            = '';
+    protected $line;
     
     /**
-     *
+     * @var array
      */
-    protected $_lineRecord      = null;
+    protected $lineRecord;
     
     /**
-     *
+     * @var string
      */
-    protected $_returnedLine    = '';
+    protected $returnedLine;
 
+    /**
+     * A stack to keep track of the current path through the GEDCOM file during parsing.
+     *
+     * @var array
+     */
     protected $path = array();
 
     /**
@@ -64,9 +76,9 @@ class Parser
     public function __construct(\PhpGedcom\Gedcom $gedcom = null)
     {
         if (!is_null($gedcom)) {
-            $this->_gedcom = $gedcom;
+            $this->gedcom = $gedcom;
         } else {
-            $this->_gedcom = new \PhpGedcom\Gedcom();
+            $this->gedcom = new \PhpGedcom\Gedcom();
         }
     }
     
@@ -79,13 +91,13 @@ class Parser
         // line and blank out the returnedLine variable, otherwise grab
         // the next line from the file
         
-        if (!empty($this->_returnedLine)) {
-            $this->_line = $this->_returnedLine;
-            $this->_returnedLine = '';
+        if (!empty($this->returnedLine)) {
+            $this->line = $this->returnedLine;
+            $this->returnedLine = '';
         } else {
-            $this->_line = fgets($this->_file);
-            $this->_lineRecord = null;
-            $this->_linesParsed++;
+            $this->line = fgets($this->file);
+            $this->lineRecord = null;
+            $this->linesParsed++;
         }
         
         return $this;
@@ -99,7 +111,7 @@ class Parser
         // our parser object encountered a line it wasn't meant to parse
         // store this line for the previous parser to analyze
         
-        $this->_returnedLine = $this->_line;
+        $this->returnedLine = $this->line;
         
         return $this;
     }
@@ -109,7 +121,7 @@ class Parser
      */
     public function getGedcom()
     {
-        return $this->_gedcom;
+        return $this->gedcom;
     }
     
     /**
@@ -117,7 +129,7 @@ class Parser
      */
     public function eof()
     {
-        return feof($this->_file);
+        return feof($this->file);
     }
     
     /**
@@ -173,7 +185,7 @@ class Parser
      */
     public function getCurrentLine()
     {
-        return $this->_line;
+        return $this->line;
     }
     
     /**
@@ -181,19 +193,19 @@ class Parser
      */
     public function getCurrentLineRecord($pieces = 3)
     {
-        if (!is_null($this->_lineRecord)) {
-            return $this->_lineRecord;
+        if (!is_null($this->lineRecord)) {
+            return $this->lineRecord;
         }
         
-        if (empty($this->_line)) {
+        if (empty($this->line)) {
             return false;
         }
         
-        $line = trim($this->_line);
+        $line = trim($this->line);
         
-        $this->_lineRecord = explode(' ', $line, $pieces);
+        $this->lineRecord = explode(' ', $line, $pieces);
         
-        return $this->_lineRecord;
+        return $this->lineRecord;
     }
     
     /**
@@ -201,7 +213,7 @@ class Parser
      */
     protected function logError($error)
     {
-        $this->_errorLog[] = $error;
+        $this->errors[] = $error;
     }
     
     /**
@@ -210,7 +222,7 @@ class Parser
     public function logUnhandledRecord($additionalInfo = '')
     {
         $this->logError(
-            $this->_linesParsed . ': (Unhandled) ' . trim(implode('|', $this->getCurrentLineRecord())) .
+            $this->linesParsed . ': (Unhandled) ' . trim(implode('|', $this->getCurrentLineRecord())) .
             (!empty($additionalInfo) ? ' - ' . $additionalInfo : '')
         );
     }
@@ -220,7 +232,7 @@ class Parser
      */
     public function getErrors()
     {
-        return $this->_errorLog;
+        return $this->errors;
     }
     
     /**
@@ -241,9 +253,9 @@ class Parser
      */
     public function parse($fileName)
     {
-        $this->_file = fopen($fileName, 'r'); #explode("\n", mb_convert_encoding($contents, 'UTF-8'));
+        $this->file = fopen($fileName, 'r'); #explode("\n", mb_convert_encoding($contents, 'UTF-8'));
         
-        if (!$this->_file) {
+        if (!$this->file) {
             return null;
         }
         
@@ -258,8 +270,6 @@ class Parser
 
             $depth = (int)$record[0];
 
-
-
             // We only process 0 level records here. Sub levels are processed
             // in methods for those data types (individuals, sources, etc)
             
@@ -268,25 +278,24 @@ class Parser
                 $identifier = $this->normalizeIdentifier($record[1]);
                
                 if (trim($record[1]) == 'HEAD') {
-                    $this->_gedcom->setHead($this->parseRecord());
-                } else if (isset($record[2]) && trim($record[2]) == 'SUBN') {
-                    $this->_gedcom->setSubn($this->parseRecord());
-                } else if (isset($record[2]) && trim($record[2]) == 'SUBM') {
-                    $this->_gedcom->addSubm($this->parseRecord());
-                    //Parser\Subm::parse($this);
-                } else if (isset($record[2]) && $record[2] == 'SOUR') {
-                    Parser\Sour::parse($this);
-                } else if (isset($record[2]) && $record[2] == 'INDI') {
+                    $this->gedcom->setHead($this->parseRecord());
+                } elseif (isset($record[2]) && trim($record[2]) == 'SUBN') {
+                    $this->gedcom->setSubn($this->parseRecord());
+                } elseif (isset($record[2]) && trim($record[2]) == 'SUBM') {
+                    $this->gedcom->addSubm($this->parseRecord());
+                } elseif (isset($record[2]) && $record[2] == 'SOUR') {
+                    $this->gedcom->addSour($this->parseRecord());
+                } elseif (isset($record[2]) && $record[2] == 'INDI') {
                     Parser\Indi::parse($this);
-                } else if (isset($record[2]) && $record[2] == 'FAM') {
+                } elseif (isset($record[2]) && $record[2] == 'FAM') {
                     Parser\Fam::parse($this);
-                } else if (isset($record[2]) && substr(trim($record[2]), 0, 4) == 'NOTE') {
+                } elseif (isset($record[2]) && substr(trim($record[2]), 0, 4) == 'NOTE') {
                     Parser\Note::parse($this);
-                } else if (isset($record[2]) && $record[2] == 'REPO') {
+                } elseif (isset($record[2]) && $record[2] == 'REPO') {
                     Parser\Repo::parse($this);
-                } else if (isset($record[2]) && $record[2] == 'OBJE') {
+                } elseif (isset($record[2]) && $record[2] == 'OBJE') {
                     Parser\Obje::parse($this);
-                } else if (trim($record[1]) == 'TRLR') {
+                } elseif (trim($record[1]) == 'TRLR') {
                     // EOF
                     break;
                 } else {
@@ -360,10 +369,6 @@ class Parser
 
             }
         }
-
-
-
-
 
         $this->forward();
 

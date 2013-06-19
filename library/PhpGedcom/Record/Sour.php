@@ -43,7 +43,7 @@ class Sour extends Record implements Noteable, Objectable
     protected $auth;
 
     /**
-     * @var string
+     * @var Sour\Data
      */
     protected $data;
 
@@ -74,16 +74,19 @@ class Sour extends Record implements Noteable, Objectable
 
     /**
      * @var array
+     * @of Sour\Refn
      */
     protected $refn = array();
     
     /**
      * @var array
+     * @of Sour\Note
      */
     protected $note = array();
     
     /**
      * @var array
+     * @of Sour\Obje
      */
     protected $obje = array();
 

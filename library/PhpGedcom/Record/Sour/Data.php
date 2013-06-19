@@ -19,32 +19,122 @@ use \PhpGedcom\Record\Noteable;
 /**
  *
  */
-class Data extends \PhpGedcom\Record implements Noteable
+class Data extends \PhpGedcom\Record //implements Noteable
 {
-    protected $_even = array();
-    protected $_agnc = null;
-    protected $_date = null;
-    
-    protected $_text = array();
+    /**
+     * @var array
+     * @of Data\Even
+     */
+    protected $even = array();
+
+    /**
+     * @var string
+     */
+    protected $agnc;
+
+    /**
+     * @var string
+     */
+    protected $date;
+
+    /**
+     * @var string
+     */
+    protected $text;
     
     /**
-     *
+     * @var array
+     * @of Data\Note
      */
-    protected $_note = array();
-    
+    protected $note = array();
+
     /**
-     *
+     * @param Data\Even $even
+     * @return $this
      */
-    public function addText($text)
+    public function addEven(Data\Even $even)
     {
-        $this->_text[] = $text;
+        $this->even[] = $even;
+        return $this;
     }
-    
+
     /**
-     *
+     * @return array
      */
-    public function addNote(\PhpGedcom\Record\NoteRef $note)
+    public function getEven()
     {
-        $this->_note[] = $note;
+        return $this->even;
+    }
+
+    /**
+     * @param string $agnc
+     * @return $this
+     */
+    public function setAgnc($agnc)
+    {
+        $this->agnc = $agnc;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAgnc()
+    {
+        return $this->agnc;
+    }
+
+    /**
+     * @param string $text
+     * @return $this
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param string $date
+     * @return $this
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param Data\Note $note
+     * @return $this
+     */
+    public function addNote(Data\Note $note)
+    {
+        $this->note[] = $note;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNote()
+    {
+        return $this->note;
     }
 }

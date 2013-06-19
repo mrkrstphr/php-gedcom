@@ -15,10 +15,54 @@
 namespace PhpGedcom\Record\Sour\Data;
 
 /**
- *
+ * Class Even
+ * @package PhpGedcom\Record\Sour\Data
  */
 class Even extends \PhpGedcom\Record
 {
-    protected $_date = null;
-    protected $_plac = null;
+    /**
+     * @var string
+     */
+    protected $date;
+
+    /**
+     * @var string
+     */
+    protected $plac;
+
+    /**
+     * @param string $date
+     * @return $this
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string $plac
+     * @return $this
+     */
+    public function setPlac($plac)
+    {
+        $this->plac = $plac;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlac()
+    {
+        return $this->plac;
+    }
 }

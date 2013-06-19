@@ -19,14 +19,22 @@ namespace PhpGedcom\Record;
  */
 class RepoRef extends \PhpGedcom\Record implements Noteable
 {
-    protected $_repo = null;
-
-    protected $_caln = array();
+    /**
+     * @var string
+     */
+    protected $repo;
 
     /**
-     *
+     * @var array
+     * @of Caln
      */
-    protected $_note = array();
+    protected $caln = array();
+
+    /**
+     * @var array
+     * @of Note
+     */
+    protected $note = array();
 
     /**
      *
@@ -34,5 +42,41 @@ class RepoRef extends \PhpGedcom\Record implements Noteable
     public function addNote(\PhpGedcom\Record\NoteRef $note)
     {
         $this->_note[] = $note;
+    }
+
+    /**
+     * @param string $repo
+     * @return $this
+     */
+    public function setRepo($repo)
+    {
+        $this->repo = $repo;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRepo()
+    {
+        return $this->repo;
+    }
+
+    /**
+     * @param Caln $caln
+     * @return $this
+     */
+    public function addCaln(Caln $caln)
+    {
+        $this->caln[] = $caln;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCaln()
+    {
+        return $this->caln;
     }
 }
