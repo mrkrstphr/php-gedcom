@@ -320,12 +320,9 @@ class Parser
         if ($depth == 0 && $identifier !== 'HEAD') {
             $nodeType = trim($record[2]);
             $data = $this->prepareData($record[1]);
-        } else if ($depth > 0 && isset($record[2])) {
+        } elseif ($depth > 0 && isset($record[2])) {
             $data = $this->prepareData($record[2]);
         }
-
-
-
 
         // Keep track of the previous (non CONT or CONC) node for concatenated values:s
         $previousNode = '';

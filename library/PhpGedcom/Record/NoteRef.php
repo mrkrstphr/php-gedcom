@@ -27,9 +27,9 @@ class NoteRef extends \PhpGedcom\Record implements Sourceable
     protected $_isRef   = false;
     
     /**
-     *
+     * @var string
      */
-    protected $_note    = '';
+    protected $note;
     
     /**
      *
@@ -58,5 +58,23 @@ class NoteRef extends \PhpGedcom\Record implements Sourceable
     public function addSour(\PhpGedcom\Record\SourRef $sour)
     {
         $this->_sour[] = $sour;
+    }
+
+    /**
+     * @param string $note
+     * @return $this
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNote()
+    {
+        return $this->note;
     }
 }
