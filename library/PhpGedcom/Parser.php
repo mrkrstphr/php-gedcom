@@ -294,7 +294,7 @@ class Parser
                 } elseif (isset($record[2]) && $record[2] == 'REPO') {
                     Parser\Repo::parse($this);
                 } elseif (isset($record[2]) && $record[2] == 'OBJE') {
-                    Parser\Obje::parse($this);
+                    $this->gedcom->addObje($this->parseRecord());
                 } elseif (trim($record[1]) == 'TRLR') {
                     // EOF
                     break;
@@ -402,7 +402,9 @@ class Parser
 
                         if (in_array($param[0], array('string', 'integer', 'float'))) {
                             if ($classReflector->hasMethod('set' . $recordType)) {
-                                call_user_func(array($object, 'set' . $recordType), $this->prepareData($record[2]));
+                                if (isset($record[2])) {
+                                    call_user_func(array($object, 'set' . $recordType), $this->prepareData($record[2]));
+                                }
                             } else {
                                 throw new \Exception('Missing setter for ' . $classReflector->getName() . '::' . $property->getName());
                             }

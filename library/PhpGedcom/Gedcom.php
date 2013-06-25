@@ -160,7 +160,7 @@ class Gedcom
      */
     public function addObje(Record\Obje $obje)
     {
-        $this->obje[$obje->getId()] = $obje;
+        $this->obje[$obje->getObje()] = $obje;
     }
 
     /**
