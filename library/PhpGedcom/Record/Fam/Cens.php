@@ -15,9 +15,9 @@
 namespace PhpGedcom\Record\Fam;
 
 /**
- * Class Marr
+ * Class Cens
  * @package PhpGedcom\Record\Fam
  */
-class Marr extends Even
+class Cens extends Even
 {
 }

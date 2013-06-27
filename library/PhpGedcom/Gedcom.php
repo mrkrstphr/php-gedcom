@@ -130,7 +130,7 @@ class Gedcom
      */
     public function addFam(Record\Fam $fam)
     {
-        $this->fam[$fam->getId()] = $fam;
+        $this->fam[$fam->getFam()] = $fam;
     }
 
     /**

@@ -15,8 +15,8 @@
 namespace PhpGedcom\Record;
 
 use PhpGedcom\Record;
-use PhpGedcom\Record\Repo\Phon AS PhonX;
-use PhpGedcom\Record\Repo\Refn AS RefnX;
+use PhpGedcom\Record\Repo\Phon as PhonX;
+use PhpGedcom\Record\Repo\Refn as RefnX;
 
 /**
  * Class Repo

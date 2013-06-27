@@ -12,6 +12,7 @@ trait SourceableTrait
      * Stores an array of Source References for this object.
      *
      * @var array
+     * @of AbstractSourRef
      */
     protected $sour;
 
@@ -26,10 +27,10 @@ trait SourceableTrait
     }
 
     /**
-     * @param SourRef $sour
+     * @param AbstractSourRef $sour
      * @return $this
      */
-    public function addSour(\PhpGedcom\Record\SourRef $sour)
+    public function addSour(AbstractSourRef $sour)
     {
         $this->sour[] = $sour;
         return $this;

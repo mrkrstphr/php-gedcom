@@ -18,6 +18,6 @@ namespace PhpGedcom\Record\Fam;
  * Class Marr
  * @package PhpGedcom\Record\Fam
  */
-class Marr extends Even
+class Marr extends AbstractFamEven
 {
 }

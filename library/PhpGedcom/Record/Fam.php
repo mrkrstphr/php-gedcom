@@ -15,7 +15,17 @@
 namespace PhpGedcom\Record;
 
 use PhpGedcom\Record;
+use PhpGedcom\Record\Fam\Anul;
+use PhpGedcom\Record\Fam\Cens;
+use PhpGedcom\Record\Fam\Div;
+use PhpGedcom\Record\Fam\Divf;
 use PhpGedcom\Record\Fam\Even;
+use PhpGedcom\Record\Fam\Enga;
+use PhpGedcom\Record\Fam\Marb;
+use PhpGedcom\Record\Fam\Marc;
+use PhpGedcom\Record\Fam\Marl;
+use PhpGedcom\Record\Fam\Marr;
+use PhpGedcom\Record\Fam\Mars;
 use PhpGedcom\Record\Fam\Slgs;
 
 /**
@@ -31,7 +41,7 @@ class Fam extends Record
     /**
      * @var string
      */
-    protected $id;
+    protected $fam;
     
     /**
      * @var Chan
@@ -57,14 +67,87 @@ class Fam extends Record
      * @var array
      */
     protected $chil = array();
-    
+
     /**
+     * Generic event type.
      * @var array
+     * @of Even
      */
     protected $even = array();
-    
+
+    /**
+     * Event type.
+     * @var array
+     * @of Anul
+     */
+    protected $anul = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Cens
+     */
+    protected $cens = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Div
+     */
+    protected $div = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Divf
+     */
+    protected $divf = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Enga
+     */
+    protected $enga = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Marr
+     */
+    protected $marr = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Marb
+     */
+    protected $marb = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Marc
+     */
+    protected $marc = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Marl
+     */
+    protected $marl = array();
+
+    /**
+     * Event type.
+     * @var array
+     * @of Mars
+     */
+    protected $mars = array();
+
     /**
      * @var array
+     * @of Slgs
      */
     protected $slgs = array();
     
@@ -75,6 +158,7 @@ class Fam extends Record
     
     /**
      * @var array
+     * @of AbstractRefn
      */
     protected $refn = array();
     
@@ -84,19 +168,19 @@ class Fam extends Record
     protected $rin;
 
     /**
-     * @param mixed $id
+     * @param string $fam
      */
-    public function setId($id)
+    public function setFam($fam)
     {
-        $this->id = $id;
+        $this->fam = $fam;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getId()
+    public function getFam()
     {
-        return $this->id;
+        return $this->fam;
     }
 
     /**
@@ -188,9 +272,9 @@ class Fam extends Record
     }
 
     /**
-     * @param mixed $even
+     * @param array $even
      */
-    public function setEven($even)
+    public function setEven(array $even)
     {
         $this->even = $even;
     }
@@ -198,17 +282,267 @@ class Fam extends Record
     /**
      * @param Even $even
      */
-    public function addEven($even)
+    public function addEven(Even $even)
     {
         $this->even[] = $even;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getEven()
     {
         return $this->even;
+    }
+
+    /**
+     * Gets a super array of all events stored for this family.
+     *
+     * @return mixed
+     */
+    public function getEvents()
+    {
+        // TODO FIXME
+    }
+
+    /**
+     * @param array $anul
+     */
+    public function setAnul($anul)
+    {
+        $this->anul = $anul;
+    }
+
+    /**
+     * @param Anul $anul
+     */
+    public function addAnul(Anul $anul)
+    {
+        $this->anul[] = $anul;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAnul()
+    {
+        return $this->anul;
+    }
+
+    /**
+     * @param array $cens
+     */
+    public function setCens($cens)
+    {
+        $this->cens = $cens;
+    }
+
+    /**
+     * @param Cens $cens
+     */
+    public function addCens(Cens $cens)
+    {
+        $this->cens[] = $cens;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCens()
+    {
+        return $this->cens;
+    }
+
+    /**
+     * @param array $div
+     */
+    public function setDiv($div)
+    {
+        $this->div = $div;
+    }
+
+    /**
+     * @param Div $div
+     */
+    public function addDiv(Div $div)
+    {
+        $this->div[] = $div;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDiv()
+    {
+        return $this->div;
+    }
+
+    /**
+     * @param array $divf
+     */
+    public function setDivf($divf)
+    {
+        $this->divf = $divf;
+    }
+
+    /**
+     * @param Divf $divf
+     */
+    public function addDivf(Divf $divf)
+    {
+        $this->divf[] = $divf;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDivf()
+    {
+        return $this->divf;
+    }
+
+    /**
+     * @param array $enga
+     */
+    public function setEnga($enga)
+    {
+        $this->enga = $enga;
+    }
+
+    /**
+     * @param Enga $enga
+     */
+    public function addEnga(Enga $enga)
+    {
+        $this->enga[] = $enga;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEnga()
+    {
+        return $this->enga;
+    }
+
+    /**
+     * @param array $marb
+     */
+    public function setMarb($marb)
+    {
+        $this->marb = $marb;
+    }
+
+    /**
+     * @param Marb $marb
+     */
+    public function addMarb(Marb $marb)
+    {
+        $this->marb[] = $marb;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMarb()
+    {
+        return $this->marb;
+    }
+
+    /**
+     * @param array $marc
+     */
+    public function setMarc($marc)
+    {
+        $this->marc = $marc;
+    }
+
+    /**
+     * @param Marc $marc
+     */
+    public function addMarc(Marc $marc)
+    {
+        $this->marc[] = $marc;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMarc()
+    {
+        return $this->marc;
+    }
+
+    /**
+     * @param array $marl
+     */
+    public function setMarl($marl)
+    {
+        $this->marl = $marl;
+    }
+
+    /**
+     * @param Marl $marl
+     */
+    public function addMarl(Marl $marl)
+    {
+        $this->marl[] = $marl;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMarl()
+    {
+        return $this->marl;
+    }
+
+    /**
+     * @param array $marr
+     */
+    public function setMarr($marr)
+    {
+        $this->marr = $marr;
+    }
+
+    /**
+     * @param Marr $marr
+     */
+    public function addMarr(Marr $marr)
+    {
+        $this->marr[] = $marr;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMarr()
+    {
+        return $this->marr;
+    }
+
+    /**
+     * @param array $mars
+     */
+    public function setMars($mars)
+    {
+        $this->mars = $mars;
+    }
+
+    /**
+     * @param Mars $mars
+     */
+    public function addMars(Mars $mars)
+    {
+        $this->mars[] = $mars;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMars()
+    {
+        return $this->mars;
     }
 
     /**
@@ -236,7 +570,7 @@ class Fam extends Record
     }
 
     /**
-     * @param mixed $subm
+     * @param array $subm
      */
     public function setSubm($subm)
     {
@@ -252,7 +586,7 @@ class Fam extends Record
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getSubm()
     {
@@ -260,23 +594,23 @@ class Fam extends Record
     }
 
     /**
-     * @param mixed $refn
+     * @param array $refn
      */
-    public function setRefn($refn)
+    public function setRefn(array $refn)
     {
         $this->refn = $refn;
     }
 
     /**
-     * @param Refn $refn
+     * @param AbstractRefn $refn
      */
-    public function addRefn(Refn $refn)
+    public function addRefn(AbstractRefn $refn)
     {
         $this->refn[] = $refn;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getRefn()
     {
@@ -284,7 +618,7 @@ class Fam extends Record
     }
 
     /**
-     * @param mixed $rin
+     * @param string $rin
      */
     public function setRin($rin)
     {
@@ -292,7 +626,7 @@ class Fam extends Record
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRin()
     {

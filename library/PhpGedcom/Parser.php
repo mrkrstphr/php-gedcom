@@ -285,7 +285,7 @@ class Parser
                 } elseif (isset($record[2]) && $record[2] == 'INDI') {
                     Parser\Indi::parse($this);
                 } elseif (isset($record[2]) && $record[2] == 'FAM') {
-                    Parser\Fam::parse($this);
+                    $this->gedcom->addFam($this->parseRecord());
                 } elseif (isset($record[2]) && substr(trim($record[2]), 0, 4) == 'NOTE') {
                     Parser\Note::parse($this);
                 } elseif (isset($record[2]) && $record[2] == 'REPO') {
@@ -347,15 +347,18 @@ class Parser
         $object = new $className();
         $classReflector = new \ReflectionClass(get_class($object));
 
-        if (isset($record[2]) && $classReflector->hasProperty(strtolower($nodeType))) {
+        if (!empty($data) && $classReflector->hasProperty(strtolower($nodeType))) {
             $property = $classReflector->getProperty(strtolower($nodeType));
             $annotations = new Annotations($property);
 
             if ($annotations->hasAnnotation('var')) {
                 $param = explode(' ', $annotations['var']);
+
                 if (in_array($param[0], array('string', 'integer', 'float'))) {
                     if ($classReflector->hasMethod('set' . ucfirst(strtolower($nodeType)))) {
                         call_user_func(array($object, 'set' . $nodeType), $data);
+                    } else {
+                        // TODO FIXME
                     }
 
                     // if we actually have content here, make sure to mark it as the previous node for
@@ -363,7 +366,7 @@ class Parser
                     $previousNode = ucfirst(strtolower($nodeType));
                 }
             } else {
-
+                // TODO FIXME
             }
         }
 

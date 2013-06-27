@@ -12,6 +12,7 @@ trait ObjectableTrait
      * Stores an array of Object References for this object.
      *
      * @var array
+     * @of AbstractObjeRef
      */
     protected $obje = array();
 
@@ -26,10 +27,10 @@ trait ObjectableTrait
     }
 
     /**
-     * @param ObjeRef $obje
+     * @param AbstractObjeRef $obje
      * @return $this
      */
-    public function addObje(ObjeRef $obje)
+    public function addObje(AbstractObjeRef $obje)
     {
         $this->obje[] = $obje;
         return $this;
