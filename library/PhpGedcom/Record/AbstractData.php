@@ -56,4 +56,3 @@ class AbstractData extends Record
         return $this->date;
     }
 }
-

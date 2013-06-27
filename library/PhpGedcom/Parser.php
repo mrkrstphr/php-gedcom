@@ -406,31 +406,41 @@ class Parser
                                     call_user_func(array($object, 'set' . $recordType), $this->prepareData($record[2]));
                                 }
                             } else {
-                                throw new \Exception('Missing setter for ' . $classReflector->getName() . '::' . $property->getName());
+                                throw new \Exception(
+                                    'Missing setter for ' . $classReflector->getName() . '::' . $property->getName()
+                                );
                             }
                         } elseif ($param[0] == 'array') {
                             if ($annotations->hasAnnotation('of')) {
                                 if ($classReflector->hasMethod('add' . $recordType)) {
                                     call_user_func(array($object, 'add' . $recordType), $this->parseRecord());
                                 } else {
-                                    throw new \Exception('Missing adder for ' . $classReflector->getName() . '::' . $property->getName());
+                                    throw new \Exception(
+                                        'Missing adder for ' . $classReflector->getName() . '::' . $property->getName()
+                                    );
                                 }
                             } else {
                                 if ($classReflector->hasMethod('add' . $recordType) && isset($record[2])) {
                                     call_user_func(array($object, 'add' . $recordType), $this->prepareData($record[2]));
                                 } else {
-                                    throw new \Exception('Missing adder for ' . $classReflector->getName() . '::' . $property->getName());
+                                    throw new \Exception(
+                                        'Missing adder for ' . $classReflector->getName() . '::' . $property->getName()
+                                    );
                                 }
                             }
                         } else {
                             if ($classReflector->hasMethod('set' . $recordType)) {
                                 call_user_func(array($object, 'set' . $recordType), $this->parseRecord());
                             } else {
-                                throw new \Exception('Missing adder for ' . $classReflector->getName() . '::' . $property->getName());
+                                throw new \Exception(
+                                    'Missing adder for ' . $classReflector->getName() . '::' . $property->getName()
+                                );
                             }
                         }
                     } else {
-                        throw new \Exception('Missing @var docblock for ' . $classReflector->getName() . '::' . $recordType);
+                        throw new \Exception(
+                            'Missing @var docblock for ' . $classReflector->getName() . '::' . $recordType
+                        );
                     }
                 } else {
                     $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);

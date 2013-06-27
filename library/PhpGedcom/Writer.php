@@ -24,7 +24,7 @@ class Writer
 {
     const GEDCOM55 = 'gedcom5.5';
     
-    protected $_output = null;
+    protected $output = null;
     
     /**
      *

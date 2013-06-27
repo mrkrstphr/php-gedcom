@@ -13,9 +13,9 @@ class AbstractNoteRef extends Record
     use SourceableTrait;
 
     /**
-     *
+     * @var boolean
      */
-    protected $_isRef   = false;
+    protected $isRef = false;
 
     /**
      * @var string
@@ -23,19 +23,19 @@ class AbstractNoteRef extends Record
     protected $note;
 
     /**
-     *
+     * @param bool $isReference
      */
     public function setIsReference($isReference = true)
     {
-        $this->_isRef = $isReference;
+        $this->isRef = $isReference;
     }
 
     /**
-     *
+     * @return bool
      */
     public function getIsReference()
     {
-        return $this->_isRef;
+        return $this->isRef;
     }
 
     /**
