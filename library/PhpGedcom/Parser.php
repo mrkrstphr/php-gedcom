@@ -274,9 +274,6 @@ class Parser
             // in methods for those data types (individuals, sources, etc)
             
             if ($depth == 0) {
-                // Although not always an identifier (HEAD,TRLR):
-                $identifier = $this->normalizeIdentifier($record[1]);
-               
                 if (trim($record[1]) == 'HEAD') {
                     $this->gedcom->setHead($this->parseRecord());
                 } elseif (isset($record[2]) && trim($record[2]) == 'SUBN') {
