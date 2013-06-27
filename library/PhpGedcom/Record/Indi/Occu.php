@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Occu
+ * @package PhpGedcom\Record\Indi
  */
-class Occu extends \PhpGedcom\Record\Indi\Attr
+class Occu extends Attr
 {
 }

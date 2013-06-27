@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Prob
+ * @package PhpGedcom\Record\Indi
  */
-class Prob extends \PhpGedcom\Record\Indi\Even
+class Prob extends Even
 {
 }

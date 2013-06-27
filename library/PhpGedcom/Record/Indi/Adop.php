@@ -15,10 +15,50 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Adop
+ * @package PhpGedcom\Record\Indi
  */
-class Adop extends \PhpGedcom\Record\Indi\Even
+class Adop extends Even
 {
-    protected $_adop = null;
-    protected $_famc = null;
+    /**
+     * @var string
+     */
+    protected $adop;
+
+    /**
+     * @var string
+     */
+    protected $famc;
+
+    /**
+     * @param string $adop
+     */
+    public function setAdop($adop)
+    {
+        $this->adop = $adop;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdop()
+    {
+        return $this->adop;
+    }
+
+    /**
+     * @param string $famc
+     */
+    public function setFamc($famc)
+    {
+        $this->famc = $famc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFamc()
+    {
+        return $this->famc;
+    }
 }

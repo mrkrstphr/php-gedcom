@@ -11,8 +11,15 @@
  * @license         GPL-3.0
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
+
 namespace PhpGedcom\Record\Indi;
 
-class Note extends \PhpGedcom\Record\NoteRefAbstract
+use PhpGedcom\Record\NoteRef;
+
+/**
+ * Class Note
+ * @package PhpGedcom\Record\Indi
+ */
+class Note extends NoteRef
 {
 }

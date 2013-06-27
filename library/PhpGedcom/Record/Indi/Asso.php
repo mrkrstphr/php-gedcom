@@ -14,40 +14,58 @@
 
 namespace PhpGedcom\Record\Indi;
 
-use \PhpGedcom\Record\Sourceable;
-use \PhpGedcom\Record\Noteable;
+use PhpGedcom\Record\NoteableTrait;
+use PhpGedcom\Record\SourceableTrait;
+use PhpGedcom\Record;
 
 /**
- *
+ * Class Asso
+ * @package PhpGedcom\Record\Indi
  */
-class Asso extends \PhpGedcom\Record implements Sourceable, Noteable
+class Asso extends Record
 {
-    protected $_indi = null;
-    protected $_rela = null;
-    
+    use NoteableTrait;
+    use SourceableTrait;
+
     /**
-     *
+     * @var string
      */
-    protected $_note = array();
-    
+    protected $indi;
+
     /**
-     *
+     * @var string
      */
-    protected $_sour = array();
-    
+    protected $rela;
+
     /**
-     *
+     * @param string $indi
      */
-    public function addNote(\PhpGedcom\Record\NoteRef $note)
+    public function setIndi($indi)
     {
-        $this->_note[] = $note;
+        $this->indi = $indi;
     }
-    
+
     /**
-     *
+     * @return string
      */
-    public function addSour(\PhpGedcom\Record\SourRef $sour)
+    public function getIndi()
     {
-        $this->_sour[] = $sour;
+        return $this->indi;
+    }
+
+    /**
+     * @param string $rela
+     */
+    public function setRela($rela)
+    {
+        $this->rela = $rela;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRela()
+    {
+        return $this->rela;
     }
 }

@@ -14,42 +14,100 @@
 
 namespace PhpGedcom\Record\Fam;
 
-use \PhpGedcom\Record\Sourceable;
-use \PhpGedcom\Record\Noteable;
+use PhpGedcom\Record\NoteableTrait;
+use PhpGedcom\Record\SourceableTrait;
+use PhpGedcom\Record;
 
 /**
- *
+ * Class Slgs
+ * @package PhpGedcom\Record\Fam
  */
-class Slgs extends \PhpGedcom\Record implements Sourceable, Noteable
+class Slgs extends Record
 {
-    protected $_stat;
-    protected $_date;
-    protected $_plac;
-    protected $_temp;
-    
+    use NoteableTrait;
+    use SourceableTrait;
+
     /**
-     *
+     * @var string
      */
-    protected $_sour = array();
-    
+    protected $stat;
+
     /**
-     *
+     * @var string
      */
-    protected $_note = array();
-    
+    protected $date;
+
     /**
-     *
+     * @var string
      */
-    public function addSour(\PhpGedcom\Record\SourRef $sour)
+    protected $plac;
+
+    /**
+     * @var string
+     */
+    protected $temp;
+
+    /**
+     * @param string $stat
+     */
+    public function setStat($stat)
     {
-        $this->_sour[] = $sour;
+        $this->stat = $stat;
     }
-    
+
     /**
-     *
+     * @return string
      */
-    public function addNote(\PhpGedcom\Record\NoteRef $note)
+    public function getStat()
     {
-        $this->_note[] = $note;
+        return $this->stat;
+    }
+
+    /**
+     * @param string $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param string $plac
+     */
+    public function setPlac($plac)
+    {
+        $this->plac = $plac;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlac()
+    {
+        return $this->plac;
+    }
+
+    /**
+     * @param string $temp
+     */
+    public function setTemp($temp)
+    {
+        $this->temp = $temp;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemp()
+    {
+        return $this->temp;
     }
 }

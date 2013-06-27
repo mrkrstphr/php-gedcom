@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Nchi
+ * @package PhpGedcom\Record\Indi
  */
-class Nchi extends \PhpGedcom\Record\Indi\Attr
+class Nchi extends Attr
 {
 }

@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Prop
+ * @package PhpGedcom\Record\Indi
  */
-class Prop extends \PhpGedcom\Record\Indi\Attr
+class Prop extends Attr
 {
 }

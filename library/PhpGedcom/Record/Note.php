@@ -14,38 +14,147 @@
 
 namespace PhpGedcom\Record;
 
+use PhpGedcom\Record;
+
 /**
- *
- *
+ * Class Note
+ * @package PhpGedcom\Record
  */
-class Note extends \PhpGedcom\Record implements Sourceable
+class Note extends Record
 {
-    protected $_id   = null;
-    protected $_chan = null;
-    
-    protected $_note = null;
-    protected $_even = null;
-    protected $_refn = array();
-    protected $_rin  = null;
-    
+    use SourceableTrait;
+
     /**
-     *
+     * @var string
      */
-    protected $_sour = array();
-    
+    protected $id;
+
     /**
-     *
+     * @var Chan
      */
-    public function addRefn(\PhpGedcom\Record\Refn $refn)
+    protected $chan;
+
+    /**
+     * @var string
+     */
+    protected $note;
+
+    /**
+     * @var string
+     */
+    protected $even;
+
+    /**
+     * @var array
+     */
+    protected $refn = array();
+
+    /**
+     * @var string
+     */
+    protected $rin;
+
+    /**
+     * @param string $id
+     */
+    public function setId($id)
     {
-        $this->_refn[] = $refn;
+        $this->id = $id;
     }
-    
+
     /**
-     *
+     * @return string
      */
-    public function addSour(\PhpGedcom\Record\SourRef $sour)
+    public function getId()
     {
-        $this->_sour[] = $sour;
+        return $this->id;
+    }
+
+    /**
+     * @param \PhpGedcom\Record\Chan $chan
+     */
+    public function setChan($chan)
+    {
+        $this->chan = $chan;
+    }
+
+    /**
+     * @return \PhpGedcom\Record\Chan
+     */
+    public function getChan()
+    {
+        return $this->chan;
+    }
+
+    /**
+     * @param string $note
+     */
+    public function setNote($note)
+    {
+        $this->note = $note;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNote()
+    {
+        return $this->note;
+    }
+
+    /**
+     * @param string $even
+     */
+    public function setEven($even)
+    {
+        $this->even = $even;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEven()
+    {
+        return $this->even;
+    }
+
+    /**
+     * @param array $refn
+     */
+    public function setRefn($refn)
+    {
+        $this->refn = $refn;
+    }
+
+    /**
+     * @param Refn $refn
+     */
+    public function addRefn(Refn $refn)
+    {
+        $this->refn[] = $refn;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRefn()
+    {
+        return $this->refn;
+    }
+
+    /**
+     * @param string $rin
+     */
+    public function setRin($rin)
+    {
+        $this->rin = $rin;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRin()
+    {
+        return $this->rin;
     }
 }

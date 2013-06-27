@@ -14,20 +14,25 @@
 
 namespace PhpGedcom\Record;
 
+use PhpGedcom\Record;
+
 /**
- *
+ * Class ObjeRef
+ * @package PhpGedcom\Record
  */
-class ObjeRef extends \PhpGedcom\Record implements Noteable
+class ObjeRef extends Record
 {
+    use NoteableTrait;
+
     /**
-     *
+     * @var boolean
      */
-    protected $_isRef;
+    protected $isRef;
     
     /**
-     *
+     * @var integer
      */
-    protected $_obje;
+    protected $obje;
     
     /**
      * @var string
@@ -45,17 +50,11 @@ class ObjeRef extends \PhpGedcom\Record implements Noteable
     protected $file;
     
     /**
-     * @var array
-     * @of NoteRef
-     */
-    protected $note = array();
-    
-    /**
      *
      */
     public function setIsReference($isReference = true)
     {
-        $this->_isRef = $isReference;
+        $this->isRef = $isReference;
     }
     
     /**
@@ -63,15 +62,23 @@ class ObjeRef extends \PhpGedcom\Record implements Noteable
      */
     public function getIsReference()
     {
-        return $this->_isRef;
+        return $this->isRef;
     }
-    
+
     /**
-     *
+     * @param mixed $obje
      */
-    public function addNote(\PhpGedcom\Record\NoteRef $note)
+    public function setObje($obje)
     {
-        $this->_note[] = $note;
+        $this->obje = $obje;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getObje()
+    {
+        return $this->obje;
     }
 
     /**

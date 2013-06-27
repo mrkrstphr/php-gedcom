@@ -14,54 +14,55 @@
 
 namespace PhpGedcom\Record\Indi;
 
-use \PhpGedcom\Record\Sourceable;
-use \PhpGedcom\Record\Noteable;
-use \PhpGedcom\Record\Objectable;
-
 /**
- *
+ * Class Attr
+ * @package PhpGedcom\Record\Indi
  */
-class Attr extends \PhpGedcom\Record\Indi\Even implements Sourceable, Noteable, Objectable
+class Attr extends Even
 {
-    protected $type = null;
-    protected $_attr = null;
-    
     /**
-     *
+     * @var string
      */
-    protected $sour = array();
-    
+    protected $type;
+
     /**
-     *
+     * @var string
      */
-    protected $note = array();
-    
+    protected $attr;
+
     /**
-     *
+     * @param string $type
+     * @return $this
      */
-    protected $obje = array();
-    
-    /**
-     *
-     */
-    public function addSour(\PhpGedcom\Record\SourRef $sour)
+    public function setType($type)
     {
-        $this->sour[] = $sour;
+        $this->type = $type;
+        return $this;
     }
-    
+
     /**
-     *
+     * @return string
      */
-    public function addNote(\PhpGedcom\Record\NoteRef $note)
+    public function getType()
     {
-        $this->note[] = $note;
+        return $this->type;
     }
-    
+
     /**
-     *
+     * @param string $attr
+     * @return $this
      */
-    public function addObje(\PhpGedcom\Record\ObjeRef $obje)
+    public function setAttr($attr)
     {
-        $this->obje[] = $obje;
+        $this->attr = $attr;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAttr()
+    {
+        return $this->attr;
     }
 }

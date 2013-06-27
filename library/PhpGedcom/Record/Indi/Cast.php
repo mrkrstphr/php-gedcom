@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Cast
+ * @package PhpGedcom\Record\Indi
  */
-class Cast extends \PhpGedcom\Record\Indi\Attr
+class Cast extends Attr
 {
 }

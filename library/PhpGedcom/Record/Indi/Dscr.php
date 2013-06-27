@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Dscr
+ * @package PhpGedcom\Record\Indi
  */
-class Dscr extends \PhpGedcom\Record\Indi\Attr
+class Dscr extends Attr
 {
 }

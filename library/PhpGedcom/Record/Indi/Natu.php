@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Natu
+ * @package PhpGedcom\Record\Indi
  */
-class Natu extends \PhpGedcom\Record\Indi\Even
+class Natu extends Even
 {
 }

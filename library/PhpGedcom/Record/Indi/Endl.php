@@ -15,7 +15,8 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Endl
+ * @package PhpGedcom\Record\Indi
  */
 class Endl extends Lds
 {

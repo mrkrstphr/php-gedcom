@@ -15,12 +15,29 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Slgc
+ * @package PhpGedcom\Record\Indi
  */
 class Slgc extends Lds
 {
     /**
-     *
+     * @var string
      */
-    protected $_famc = null;
+    protected $famc;
+
+    /**
+     * @param mixed $famc
+     */
+    public function setFamc($famc)
+    {
+        $this->famc = $famc;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFamc()
+    {
+        return $this->famc;
+    }
 }

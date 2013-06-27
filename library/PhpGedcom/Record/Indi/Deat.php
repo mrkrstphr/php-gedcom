@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Deat
+ * @package PhpGedcom\Record\Indi
  */
-class Deat extends \PhpGedcom\Record\Indi\Even
+class Deat extends Even
 {
 }

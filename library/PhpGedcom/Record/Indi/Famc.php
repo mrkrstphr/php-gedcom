@@ -14,26 +14,56 @@
 
 namespace PhpGedcom\Record\Indi;
 
-use \PhpGedcom\Record\Noteable;
+use PhpGedcom\Record\NoteableTrait;
+use PhpGedcom\Record;
 
 /**
- *
+ * Class Famc
+ * @package PhpGedcom\Record\Indi
  */
-class Famc extends \PhpGedcom\Record implements Noteable
+class Famc extends Record
 {
-    protected $_famc = null;
-    protected $_pedi = null;
-    
+    use NoteableTrait;
+
     /**
-     *
+     * @var string
      */
-    protected $_note = array();
-    
+    protected $famc;
+
     /**
-     *
+     * @var string
      */
-    public function addNote(\PhpGedcom\Record\NoteRef $note)
+    protected $pedi;
+
+    /**
+     * @param string $famc
+     */
+    public function setFamc($famc)
     {
-        $this->_note[] = $note;
+        $this->famc = $famc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFamc()
+    {
+        return $this->famc;
+    }
+
+    /**
+     * @param string $pedi
+     */
+    public function setPedi($pedi)
+    {
+        $this->pedi = $pedi;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPedi()
+    {
+        return $this->pedi;
     }
 }

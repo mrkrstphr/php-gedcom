@@ -15,7 +15,8 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Bapl
+ * @package PhpGedcom\Record\Indi
  */
 class Bapl extends Lds
 {

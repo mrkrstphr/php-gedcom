@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Reli
+ * @package PhpGedcom\Record\Indi
  */
-class Reli extends \PhpGedcom\Record\Indi\Attr
+class Reli extends Attr
 {
 }

@@ -15,8 +15,9 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Nati
+ * @package PhpGedcom\Record\Indi
  */
-class Nati extends \PhpGedcom\Record\Indi\Attr
+class Nati extends Attr
 {
 }

@@ -14,11 +14,53 @@
 
 namespace PhpGedcom\Record\SourRef;
 
+use PhpGedcom\Record;
+
 /**
- *
+ * Class Even
+ * @package PhpGedcom\Record\SourRef
  */
-class Even extends \PhpGedcom\Record
+class Even extends Record
 {
-    protected $_even    = null;
-    protected $_role    = null;
+    /**
+     * @var string
+     */
+    protected $even;
+
+    /**
+     * @var string
+     */
+    protected $role;
+
+    /**
+     * @param string $even
+     */
+    public function setEven($even)
+    {
+        $this->even = $even;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEven()
+    {
+        return $this->even;
+    }
+
+    /**
+     * @param string $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
 }

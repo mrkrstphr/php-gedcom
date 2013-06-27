@@ -15,7 +15,8 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Conl
+ * @package PhpGedcom\Record\Indi
  */
 class Conl extends Lds
 {

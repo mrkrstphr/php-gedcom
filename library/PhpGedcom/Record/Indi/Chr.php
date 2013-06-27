@@ -15,9 +15,29 @@
 namespace PhpGedcom\Record\Indi;
 
 /**
- *
+ * Class Chr
+ * @package PhpGedcom\Record\Indi
  */
-class Chr extends \PhpGedcom\Record\Indi\Even
+class Chr extends Even
 {
-    protected $_famc = null;
+    /**
+     * @var string
+     */
+    protected $famc;
+
+    /**
+     * @param string $famc
+     */
+    public function setFamc($famc)
+    {
+        $this->famc = $famc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFamc()
+    {
+        return $this->famc;
+    }
 }

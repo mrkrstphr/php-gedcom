@@ -14,10 +14,32 @@
 
 namespace PhpGedcom\Record\Fam\Even;
 
+use PhpGedcom\Record;
+
 /**
- *
+ * Class Husb
+ * @package PhpGedcom\Record\Fam\Even
  */
-class Husb extends \PhpGedcom\Record
+class Husb extends Record
 {
-    protected $_age = null;
+    /**
+     * @var string
+     */
+    protected $age;
+
+    /**
+     * @param string $age
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
 }

@@ -14,8 +14,6 @@
 
 namespace PhpGedcom\Record\Indi;
 
-use PhpGedcom\Record\Indi\Even;
-
 /**
  * Class Birt
  * @package PhpGedcom\Record\Indi

@@ -2,10 +2,12 @@
 
 namespace PhpGedcom\Record\Subm;
 
+use PhpGedcom\Record\ObjeRef;
+
 /**
  * Class ObjeRef
  * @package PhpGedcom\Record\Subm
  */
-class Obje extends \PhpGedcom\Record\ObjeRef
+class Obje extends ObjeRef
 {
 }

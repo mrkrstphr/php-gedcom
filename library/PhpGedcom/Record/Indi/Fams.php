@@ -14,28 +14,35 @@
 
 namespace PhpGedcom\Record\Indi;
 
-use \PhpGedcom\Record\Noteable;
+use PhpGedcom\Record\NoteableTrait;
+use PhpGedcom\Record;
 
 /**
- *
+ * Class Fams
+ * @package PhpGedcom\Record\Indi
  */
-class Fams extends \PhpGedcom\Record implements Noteable
+class Fams extends Record
 {
+    use NoteableTrait;
+
     /**
-     *
+     * @var string
      */
-    protected $_fams = null;
-    
+    protected $fams;
+
     /**
-     *
+     * @param string $fams
      */
-    protected $_note = array();
-    
-    /**
-     *
-     */
-    public function addNote(\PhpGedcom\Record\NoteRef $note)
+    public function setFams($fams)
     {
-        $this->_note[] = $note;
+        $this->fams = $fams;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFams()
+    {
+        return $this->fams;
     }
 }

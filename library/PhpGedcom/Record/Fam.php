@@ -14,128 +14,288 @@
 
 namespace PhpGedcom\Record;
 
+use PhpGedcom\Record;
+use PhpGedcom\Record\Fam\Even;
+use PhpGedcom\Record\Fam\Slgs;
+
 /**
- *
- *
+ * Class Fam
+ * @package PhpGedcom\Record
  */
-class Fam extends \PhpGedcom\Record implements Noteable, Sourceable, Objectable
+class Fam extends Record
 {
+    use NoteableTrait;
+    use ObjectableTrait;
+    use SourceableTrait;
+
     /**
-     *
+     * @var string
      */
-    protected $_id   = null;
+    protected $id;
     
     /**
-     *
+     * @var Chan
      */
-    protected $_chan = null;
+    protected $chan;
     
     /**
-     *
+     * @var string
      */
-    protected $_husb = null;
+    protected $husb;
     
     /**
-     *
+     * @var string
      */
-    protected $_wife = null;
+    protected $wife;
     
     /**
-     *
+     * @var integer
      */
-    protected $_nchi = null;
+    protected $nchi;
     
     /**
-     *
+     * @var array
      */
-    protected $_chil = array();
+    protected $chil = array();
     
     /**
-     *
+     * @var array
      */
-    protected $_even = array();
+    protected $even = array();
     
     /**
-     *
+     * @var array
      */
-    protected $_slgs = array();
+    protected $slgs = array();
     
     /**
-     *
+     * @var array
      */
-    protected $_subm = array();
+    protected $subm = array();
     
     /**
-     *
+     * @var array
      */
-    protected $_refn = array();
+    protected $refn = array();
     
     /**
-     *
+     * @var string
      */
-    protected $_rin  = null;
-    
+    protected $rin;
+
     /**
-     *
+     * @param mixed $id
      */
-    protected $_note = array();
-    
-    /**
-     *
-     */
-    protected $_sour = array();
-    
-    /**
-     *
-     */
-    protected $_obje = array();
-    
-    /**
-     *
-     */
-    public function addEven(\PhpGedcom\Record\Fam\Even $even)
+    public function setId($id)
     {
-        $this->_even[] = $even;
+        $this->id = $id;
     }
-    
+
     /**
-     *
+     * @return mixed
      */
-    public function addSlgs(\PhpGedcom\Record\Fam\Slgs $slgs)
+    public function getId()
     {
-        $this->_slgs[] = $slgs;
+        return $this->id;
     }
-    
+
     /**
-     *
-     *
+     * @param mixed $chan
      */
-    public function addRefn(\PhpGedcom\Record\Refn $refn)
+    public function setChan($chan)
     {
-        $this->_refn[] = $refn;
+        $this->chan = $chan;
     }
-    
+
     /**
-     *
+     * @return mixed
      */
-    public function addNote(\PhpGedcom\Record\NoteRef $note)
+    public function getChan()
     {
-        $this->_note[] = $note;
+        return $this->chan;
     }
-    
+
     /**
-     *
+     * @param mixed $husb
      */
-    public function addSour(\PhpGedcom\Record\SourRef $sour)
+    public function setHusb($husb)
     {
-        $this->_sour[] = $sour;
+        $this->husb = $husb;
     }
-    
+
     /**
-     *
+     * @return mixed
      */
-    public function addObje(\PhpGedcom\Record\ObjeRef $obje)
+    public function getHusb()
     {
-        $this->_obje[] = $obje;
+        return $this->husb;
+    }
+
+    /**
+     * @param mixed $wife
+     */
+    public function setWife($wife)
+    {
+        $this->wife = $wife;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWife()
+    {
+        return $this->wife;
+    }
+
+    /**
+     * @param mixed $nchi
+     */
+    public function setNchi($nchi)
+    {
+        $this->nchi = $nchi;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNchi()
+    {
+        return $this->nchi;
+    }
+
+    /**
+     * @param array $chil
+     */
+    public function setChil($chil)
+    {
+        $this->chil = $chil;
+    }
+
+    /**
+     * @param string $chil
+     */
+    public function addChil($chil)
+    {
+        $this->chil[] = $chil;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChil()
+    {
+        return $this->chil;
+    }
+
+    /**
+     * @param mixed $even
+     */
+    public function setEven($even)
+    {
+        $this->even = $even;
+    }
+
+    /**
+     * @param Even $even
+     */
+    public function addEven($even)
+    {
+        $this->even[] = $even;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEven()
+    {
+        return $this->even;
+    }
+
+    /**
+     * @param array $slgs
+     */
+    public function setSlgs($slgs)
+    {
+        $this->slgs = $slgs;
+    }
+
+    /**
+     * @param Slgs $slgs
+     */
+    public function addSlgs($slgs)
+    {
+        $this->slgs[] = $slgs;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSlgs()
+    {
+        return $this->slgs;
+    }
+
+    /**
+     * @param mixed $subm
+     */
+    public function setSubm($subm)
+    {
+        $this->subm = $subm;
+    }
+
+    /**
+     * @param string $subm
+     */
+    public function addSubm($subm)
+    {
+        $this->subm[] = $subm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubm()
+    {
+        return $this->subm;
+    }
+
+    /**
+     * @param mixed $refn
+     */
+    public function setRefn($refn)
+    {
+        $this->refn = $refn;
+    }
+
+    /**
+     * @param Refn $refn
+     */
+    public function addRefn(Refn $refn)
+    {
+        $this->refn[] = $refn;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefn()
+    {
+        return $this->refn;
+    }
+
+    /**
+     * @param mixed $rin
+     */
+    public function setRin($rin)
+    {
+        $this->rin = $rin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRin()
+    {
+        return $this->rin;
     }
 }

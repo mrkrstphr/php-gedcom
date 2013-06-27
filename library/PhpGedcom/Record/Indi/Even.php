@@ -20,8 +20,12 @@ use \PhpGedcom\Record;
  * Class Even
  * @package PhpGedcom\Record\Indi
  */
-class Even extends Record implements Record\Objectable, Record\Sourceable, Record\Noteable
+class Even extends Record
 {
+    use Record\NoteableTrait;
+    use Record\ObjectableTrait;
+    use Record\SourceableTrait;
+
     /**
      * @var string
      */
@@ -66,21 +70,6 @@ class Even extends Record implements Record\Objectable, Record\Sourceable, Recor
      * @var array
      */
     public $ref = array();
-    
-    /**
-     * @var array
-     */
-    protected $obje = array();
-    
-    /**
-     * @var array
-     */
-    protected $sour = array();
-    
-    /**
-     * @var array
-     */
-    protected $note = array();
 
     /**
      * @return array
@@ -97,60 +86,6 @@ class Even extends Record implements Record\Objectable, Record\Sourceable, Recor
     public function addPhon(Record\Phon $phon)
     {
         $this->phon[] = $phon;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getObje()
-    {
-        return $this->obje;
-    }
-
-    /**
-     * @param Record\ObjeRef $obje
-     * @return Even
-     */
-    public function addObje(Record\ObjeRef $obje)
-    {
-        $this->obje[] = $obje;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getSour()
-    {
-        return $this->sour;
-    }
-
-    /**
-     * @param Record\SourRef $sour
-     * @return Even
-     */
-    public function addSour(Record\SourRef $sour)
-    {
-        $this->sour[] = $sour;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getNote()
-    {
-        return $this->note;
-    }
-
-    /**
-     * @param Record\NoteRef $note
-     * @return Even
-     */
-    public function addNote(Record\NoteRef $note)
-    {
-        $this->note[] = $note;
         return $this;
     }
 
