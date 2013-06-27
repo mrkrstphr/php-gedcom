@@ -12,7 +12,7 @@ trait NoteableTrait
      * Stores an array of Note References for this object.
      *
      * @var array
-     * @of NoteRef
+     * @of AbstractNoteRef
      */
     protected $note = array();
 
@@ -27,10 +27,10 @@ trait NoteableTrait
     }
 
     /**
-     * @param NoteRef $note
+     * @param AbstractNoteRef $note
      * @return $this
      */
-    public function addNote(NoteRef $note)
+    public function addNote(AbstractNoteRef $note)
     {
         $this->note[] = $note;
         return $this;

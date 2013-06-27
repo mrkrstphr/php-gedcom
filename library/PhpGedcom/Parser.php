@@ -289,7 +289,7 @@ class Parser
                 } elseif (isset($record[2]) && substr(trim($record[2]), 0, 4) == 'NOTE') {
                     Parser\Note::parse($this);
                 } elseif (isset($record[2]) && $record[2] == 'REPO') {
-                    Parser\Repo::parse($this);
+                    $this->gedcom->addRepo($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'OBJE') {
                     $this->gedcom->addObje($this->parseRecord());
                 } elseif (trim($record[1]) == 'TRLR') {

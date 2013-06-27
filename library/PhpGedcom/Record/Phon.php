@@ -20,28 +20,6 @@ use PhpGedcom\Record;
  * Class Phon
  * @package PhpGedcom\Record
  */
-class Phon extends Record
+class Phon extends AbstractPhon
 {
-    /**
-     * @var string
-     */
-    protected $phon = null;
-
-    /**
-     * @param $phon
-     * @return Phon
-     */
-    public function setPhon($phon)
-    {
-        $this->phon = $phon;
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getPhon()
-    {
-        return $this->phon;
-    }
 }

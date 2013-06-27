@@ -15,13 +15,17 @@
 namespace PhpGedcom\Record;
 
 use PhpGedcom\Record;
+use PhpGedcom\Record\Repo\Phon AS PhonX;
+use PhpGedcom\Record\Repo\Refn AS RefnX;
 
 /**
  * Class Repo
  * @package PhpGedcom\Record
  */
-class Repo extends Record implements Noteable
+class Repo extends Record
 {
+    use NoteableTrait;
+
     /**
      * @var string
      */
@@ -49,24 +53,21 @@ class Repo extends Record implements Noteable
 
     /**
      * @var array
+     * @of Phon
      */
     protected $phon = array();
 
     /**
      * @var array
+     * @of RefnX
      */
     protected $refn = array();
 
     /**
-     * @var array
-     */
-    protected $note = array();
-
-    /**
-     * @param Phon $phon
+     * @param PhonX $phon
      * @return Repo
      */
-    public function addPhon(Phon $phon)
+    public function addPhon(PhonX $phon)
     {
         $this->phon[] = $phon;
         return $this;
@@ -81,10 +82,10 @@ class Repo extends Record implements Noteable
     }
 
     /**
-     * @param Refn $refn
-     * @return Repo
+     * @param RefnX $refn
+     * @return $this
      */
-    public function addRefn(Refn $refn)
+    public function addRefn(RefnX $refn)
     {
         $this->refn[] = $refn;
         return $this;
@@ -96,24 +97,6 @@ class Repo extends Record implements Noteable
     public function getRefn()
     {
         return $this->refn;
-    }
-
-    /**
-     * @param NoteRef $note
-     * @return Repo
-     */
-    public function addNote(NoteRef $note)
-    {
-        $this->note[] = $note;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getNote()
-    {
-        return $this->note;
     }
 
     /**
