@@ -22,7 +22,7 @@ class Obje extends \PhpGedcom\Record implements Noteable
     /**
      * @var string
      */
-    protected $obje;
+    protected $id;
 
     /**
      * @var string
@@ -65,18 +65,18 @@ class Obje extends \PhpGedcom\Record implements Noteable
      * @param string $obje
      * @return $this
      */
-    public function setObje($obje)
+    public function setId($obje)
     {
-        $this->obje = $obje;
+        $this->id = $obje;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getObje()
+    public function getId()
     {
-        return $this->obje;
+        return $this->id;
     }
 
     /**

@@ -25,7 +25,7 @@ class Sour extends Record implements Noteable, Objectable
     /**
      * @var string
      */
-    protected $sour;
+    protected $id;
 
     /**
      * @var Chan
@@ -94,18 +94,18 @@ class Sour extends Record implements Noteable, Objectable
      * @param string $sour
      * @return Sour
      */
-    public function setSour($sour)
+    public function setId($sour)
     {
-        $this->sour = $sour;
+        $this->id = $sour;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getSour()
+    public function getId()
     {
-        return $this->sour;
+        return $this->id;
     }
 
     /**

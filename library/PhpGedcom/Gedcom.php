@@ -110,7 +110,7 @@ class Gedcom
      */
     public function addSour(Record\Sour $sour)
     {
-        $this->sour[$sour->getSour()] = $sour;
+        $this->sour[$sour->getId()] = $sour;
     }
 
     /**
@@ -130,7 +130,7 @@ class Gedcom
      */
     public function addFam(Record\Fam $fam)
     {
-        $this->fam[$fam->getFam()] = $fam;
+        $this->fam[$fam->getId()] = $fam;
     }
 
     /**
@@ -150,7 +150,7 @@ class Gedcom
      */
     public function addRepo(Record\Repo $repo)
     {
-        $this->repo[$repo->getRepo()] = $repo;
+        $this->repo[$repo->getId()] = $repo;
     }
 
     /**
@@ -160,7 +160,7 @@ class Gedcom
      */
     public function addObje(Record\Obje $obje)
     {
-        $this->obje[$obje->getObje()] = $obje;
+        $this->obje[$obje->getId()] = $obje;
     }
 
     /**
@@ -170,7 +170,7 @@ class Gedcom
      */
     public function addSubm(Record\Subm $subm)
     {
-        $this->subm[$subm->getSubm()] = $subm;
+        $this->subm[$subm->getId()] = $subm;
     }
 
     /**

@@ -25,7 +25,7 @@ class Subm extends Record implements Objectable
     /**
      * @var string
      */
-    protected $subm;
+    protected $id;
 
     /**
      * @var Record\Chan
@@ -73,18 +73,18 @@ class Subm extends Record implements Objectable
      * @param string $subm
      * @return Subm
      */
-    public function setSubm($subm)
+    public function setId($subm)
     {
-        $this->subm = $subm;
+        $this->id = $subm;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getSubm()
+    public function getId()
     {
-        return $this->subm;
+        return $this->id;
     }
 
     /**

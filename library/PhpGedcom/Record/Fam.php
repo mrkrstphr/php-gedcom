@@ -41,7 +41,7 @@ class Fam extends Record
     /**
      * @var string
      */
-    protected $fam;
+    protected $id;
     
     /**
      * @var Chan
@@ -170,17 +170,17 @@ class Fam extends Record
     /**
      * @param string $fam
      */
-    public function setFam($fam)
+    public function setId($fam)
     {
-        $this->fam = $fam;
+        $this->id = $fam;
     }
 
     /**
      * @return string
      */
-    public function getFam()
+    public function getId()
     {
-        return $this->fam;
+        return $this->id;
     }
 
     /**

@@ -26,7 +26,7 @@ class AbstractSourRef extends Record
     protected $page;
 
     /**
-     * @var string
+     * @var AbstractSourRefEven
      */
     protected $even;
 
@@ -105,15 +105,15 @@ class AbstractSourRef extends Record
     }
 
     /**
-     * @param string $even
+     * @param AbstractSourRefEven $even
      */
-    public function setEven($even)
+    public function setEven(AbstractSourRefEven $even)
     {
         $this->even = $even;
     }
 
     /**
-     * @return string
+     * @return AbstractSourRefEven
      */
     public function getEven()
     {

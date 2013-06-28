@@ -121,7 +121,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $subn = $this->gedcom->getSubn();
 
-        $this->assertEquals('SUBMISSION', $subn->getSubn());
+        $this->assertEquals('SUBMISSION', $subn->getId());
         $this->assertEquals('SUBMITTER', $subn->getSubm());
         $this->assertEquals('NameOfFamilyFile', $subn->getFamf());
         $this->assertEquals('Abbreviated Temple Code', $subn->getTemp());
@@ -138,7 +138,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $subm = $this->gedcom->getSubm();
 
-        $this->assertEquals('SUBMITTER', $subm['SUBMITTER']->getSubm());
+        $this->assertEquals('SUBMITTER', $subm['SUBMITTER']->getId());
         $this->assertEquals('John A. Nairn', $subm['SUBMITTER']->getName());
         $this->assertEquals(
             "Submitter address line 1\n" .
@@ -176,7 +176,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('N1', $note->getNote());
 
 
-        $this->assertEquals('SM2', $subm['SM2']->getSubm());
+        $this->assertEquals('SM2', $subm['SM2']->getId());
         $this->assertEquals('Secondary Submitter', $subm['SM2']->getName());
         $this->assertEquals(
             "Secondary Submitter Address 1\n" .
@@ -191,7 +191,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2', $subm['SM2']->getRin());
 
 
-        $this->assertEquals('SM3', $subm['SM3']->getSubm());
+        $this->assertEquals('SM3', $subm['SM3']->getId());
         $this->assertEquals('H. Eichmann', $subm['SM3']->getName());
         $this->assertEquals(
             "email: h.eichmann@@mbox.iqo.uni-hannover.de\n" .
@@ -244,7 +244,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
         $secondSource = $sour['SR2'];
 
-        $this->assertEquals('SR2', $secondSource->getSour());
+        $this->assertEquals('SR2', $secondSource->getId());
         $this->assertEquals('All I Know About GEDCOM, I Learned on the Internet', $secondSource->getTitl());
         $this->assertEquals('What I Know About GEDCOM', $secondSource->getAbbr());
         $this->assertEquals('Second Source Author', $secondSource->getAuth());

@@ -25,7 +25,7 @@ class Subn extends Record
     /**
      * @var string
      */
-    protected $subn;
+    protected $id;
 
     /**
      * @var string
@@ -66,18 +66,18 @@ class Subn extends Record
      * @param string $subn
      * @return Subn
      */
-    public function setSubn($subn)
+    public function setId($subn)
     {
-        $this->subn = $subn;
+        $this->id = $subn;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getSubn()
+    public function getId()
     {
-        return $this->subn;
+        return $this->id;
     }
 
     /**

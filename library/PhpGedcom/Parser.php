@@ -191,7 +191,7 @@ class Parser
     /**
      *
      */
-    public function getCurrentLineRecord($pieces = 3)
+    public function getCurrentLineRecord()
     {
         if (!is_null($this->lineRecord)) {
             return $this->lineRecord;
@@ -200,7 +200,13 @@ class Parser
         if (empty($this->line)) {
             return false;
         }
-        
+
+        $pieces = 3;
+
+        if (substr($this->line, 0, 1) == '0') {
+            $pieces = 4;
+        }
+
         $line = trim($this->line);
         
         $this->lineRecord = explode(' ', $line, $pieces);
@@ -234,9 +240,10 @@ class Parser
     {
         return $this->errors;
     }
-    
+
     /**
-     *
+     * @param string $identifier
+     * @return string
      */
     public function normalizeIdentifier($identifier)
     {
@@ -253,7 +260,7 @@ class Parser
      */
     public function parse($fileName)
     {
-        $this->file = fopen($fileName, 'r'); #explode("\n", mb_convert_encoding($contents, 'UTF-8'));
+        $this->file = fopen($fileName, 'r');
         
         if (!$this->file) {
             return null;
@@ -287,7 +294,8 @@ class Parser
                 } elseif (isset($record[2]) && $record[2] == 'FAM') {
                     $this->gedcom->addFam($this->parseRecord());
                 } elseif (isset($record[2]) && substr(trim($record[2]), 0, 4) == 'NOTE') {
-                    Parser\Note::parse($this);
+                    //Parser\Note::parse($this);
+                    $this->gedcom->addNote($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'REPO') {
                     $this->gedcom->addRepo($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'OBJE') {
@@ -315,19 +323,25 @@ class Parser
     {
         $record = $this->getCurrentLineRecord();
         $depth = (int)$record[0];
-        $identifier = $this->normalizeIdentifier($record[1]);
+        $identifier = ($record[1]);
 
         // The nodeType is the piece of data we are trying to store (NAME, DATE, SOUR, etc).
         $nodeType = trim($record[1]);
 
         $data = null;
+        $extraData = null; // silly notes
 
         // At 0 level depth, the identifier comes after the nodeType (except for HEAD);
         if ($depth == 0 && $identifier !== 'HEAD') {
             $nodeType = trim($record[2]);
-            $data = $this->prepareData($record[1]);
+            $data = $record[1];
         } elseif ($depth > 0 && isset($record[2])) {
-            $data = $this->prepareData($record[2]);
+            $data = $record[2];
+        }
+
+        if (isset($record[3])) {
+            // AFAIK this only applies to notes...
+            $extraData = $record[3];
         }
 
         // Keep track of the previous (non CONT or CONC) node for concatenated values:s
@@ -347,27 +361,17 @@ class Parser
         $object = new $className();
         $classReflector = new \ReflectionClass(get_class($object));
 
-        if (!empty($data) && $classReflector->hasProperty(strtolower($nodeType))) {
-            $property = $classReflector->getProperty(strtolower($nodeType));
-            $annotations = new Annotations($property);
-
-            if ($annotations->hasAnnotation('var')) {
-                $param = explode(' ', $annotations['var']);
-
-                if (in_array($param[0], array('string', 'integer', 'float'))) {
-                    if ($classReflector->hasMethod('set' . ucfirst(strtolower($nodeType)))) {
-                        call_user_func(array($object, 'set' . $nodeType), $data);
-                    } else {
-                        // TODO FIXME
-                    }
-
-                    // if we actually have content here, make sure to mark it as the previous node for
-                    // concatenation sake
-                    $previousNode = ucfirst(strtolower($nodeType));
-                }
-            } else {
-                // TODO FIXME
+        if (!empty($data)) {
+            if ($depth === 0 && $this->isIdentifier($data)) {
+                $data = $this->normalizeIdentifier($data);
+                $this->attemptDataStorage($object, $classReflector, 'id', $data);
+            } elseif ($classReflector->hasProperty(strtolower($nodeType))) {
+                $this->attemptDataStorage($object, $classReflector, $nodeType, $data);
+                // if we actually have content here, make sure to mark it as the previous node for
+                // concatenation sake
             }
+
+            $previousNode = ucfirst(strtolower($nodeType));
         }
 
         $this->forward();
@@ -384,7 +388,8 @@ class Parser
 
             if ($recordType == 'Cont' || $recordType == 'Conc') {
                 if (!empty($previousNode)) {
-                    $currentValue = call_user_func(array($object, 'get' . $previousNode)) . "\n";
+                    $currentValue = call_user_func(array($object, 'get' . $previousNode)) .
+                        ($recordType == 'Cont' ? "\n" : "");
 
                     if (!empty($record[2])) {
                         $currentValue .= $this->prepareData($record[2]);
@@ -393,58 +398,7 @@ class Parser
                     call_user_func(array($object, 'set' . $previousNode), $currentValue);
                 }
             } else {
-                if ($classReflector->hasProperty(strtolower($recordType))) {
-                    $property = $classReflector->getProperty(strtolower($recordType));
-                    $annotations = new Annotations($property);
-
-                    if ($annotations->hasAnnotation('var')) {
-                        $param = explode(' ', $annotations['var']);
-
-                        if (in_array($param[0], array('string', 'integer', 'float'))) {
-                            if ($classReflector->hasMethod('set' . $recordType)) {
-                                if (isset($record[2])) {
-                                    call_user_func(array($object, 'set' . $recordType), $this->prepareData($record[2]));
-                                }
-                            } else {
-                                throw new \Exception(
-                                    'Missing setter for ' . $classReflector->getName() . '::' . $property->getName()
-                                );
-                            }
-                        } elseif ($param[0] == 'array') {
-                            if ($annotations->hasAnnotation('of')) {
-                                if ($classReflector->hasMethod('add' . $recordType)) {
-                                    call_user_func(array($object, 'add' . $recordType), $this->parseRecord());
-                                } else {
-                                    throw new \Exception(
-                                        'Missing adder for ' . $classReflector->getName() . '::' . $property->getName()
-                                    );
-                                }
-                            } else {
-                                if ($classReflector->hasMethod('add' . $recordType) && isset($record[2])) {
-                                    call_user_func(array($object, 'add' . $recordType), $this->prepareData($record[2]));
-                                } else {
-                                    throw new \Exception(
-                                        'Missing adder for ' . $classReflector->getName() . '::' . $property->getName()
-                                    );
-                                }
-                            }
-                        } else {
-                            if ($classReflector->hasMethod('set' . $recordType)) {
-                                call_user_func(array($object, 'set' . $recordType), $this->parseRecord());
-                            } else {
-                                throw new \Exception(
-                                    'Missing adder for ' . $classReflector->getName() . '::' . $property->getName()
-                                );
-                            }
-                        }
-                    } else {
-                        throw new \Exception(
-                            'Missing @var docblock for ' . $classReflector->getName() . '::' . $recordType
-                        );
-                    }
-                } else {
-                    $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
-                }
+                $this->attemptDataStorage($object, $classReflector, $recordType, !isset($record[2]) ?: $record[2]);
             }
 
             $this->forward();
@@ -463,14 +417,99 @@ class Parser
 
     /**
      * @param string $value
+     * @return bool
+     */
+    public function isIdentifier($value)
+    {
+        return preg_match('/^@(.*)@$/', trim($value)) == 1;
+    }
+
+    /**
+     * @param object $object
+     * @param \ReflectionClass $reflector
+     * @param string $property
+     * @param string $value
+     * @throws \Exception
+     */
+    public function attemptDataStorage($object, \ReflectionClass $reflector, $property, $value)
+    {
+        // First ensure that the object has this property
+        if ($reflector->hasProperty(strtolower($property))) {
+            // Grab it and any DocBlock annotations
+            $propertyReflector = $reflector->getProperty(strtolower($property));
+            $annotations = new Annotations($propertyReflector);
+
+            // If it has a variable type declaration, we can work with it
+            if ($annotations->hasAnnotation('var')) {
+                // Explode the pieces (type $varname description)
+                $param = explode(' ', $annotations['var']);
+
+                // If the type is a scalar value:
+                if (in_array($param[0], array('string', 'integer', 'float'))) {
+                    if ($this->isIdentifier($value)) {
+                        $value = $this->normalizeIdentifier($value);
+                    }
+
+                    // Call the set{$property} method to set the value, if such a method exists
+                    if ($reflector->hasMethod('set' . $property)) {
+                        if (isset($value)) {
+                            call_user_func(array($object, 'set' . $property), $this->prepareData($value));
+                        }
+                    } else {
+                        throw new \Exception(
+                            'Missing setter for ' . $reflector->getName() . '::' . $propertyReflector->getName()
+                        );
+                    }
+                } elseif ($param[0] == 'array') {
+                    // If the type is an array, and their is an @of annotation, the value is expected to be an object
+                    if ($annotations->hasAnnotation('of')) {
+                        // If we have an add($property) method:
+                        if ($reflector->hasMethod('add' . $property)) {
+                            call_user_func(array($object, 'add' . $property), $this->parseRecord());
+                        } else {
+                            throw new \Exception(
+                                'Missing adder for ' . $reflector->getName() . '::' . $propertyReflector->getName()
+                            );
+                        }
+                    } else {
+                        // If we don't have an @of, we assume this is a scalar type we are adding to the array:
+                        if ($reflector->hasMethod('add' . $property) && !empty($value)) {
+                            call_user_func(array($object, 'add' . $property), $this->prepareData($value));
+                        } else {
+                            throw new \Exception(
+                                'Missing adder for ' . $reflector->getName() . '::' . $propertyReflector->getName()
+                            );
+                        }
+                    }
+                } else {
+                    // If not scalar, or an array, it must be an object, so attempt to parse it and call the
+                    // set($property) method, if it exists:
+                    if ($reflector->hasMethod('set' . $property)) {
+                        call_user_func(array($object, 'set' . $property), $this->parseRecord());
+                    } else {
+                        throw new \Exception(
+                            'Missing adder for ' . $reflector->getName() . '::' . $property->getName()
+                        );
+                    }
+                }
+            } else {
+                // If there's no DocBlock defining the variable type, we can't intelligently do anything
+                throw new \Exception(
+                    'Missing @var docblock for ' . $reflector->getName() . '::' . $property
+                );
+            }
+        } else {
+            // No matching property was found on the object
+            $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+        }
+    }
+
+    /**
+     * @param string $value
      * @return string
      */
     protected function prepareData($value)
     {
-        if (substr($value, 0, 1) == '@' && substr($value, strlen($value) - 1) == '@') {
-            return $this->normalizeIdentifier($value);
-        }
-
         return $value;
     }
 }

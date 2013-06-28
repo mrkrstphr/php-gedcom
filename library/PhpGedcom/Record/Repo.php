@@ -29,7 +29,7 @@ class Repo extends Record
     /**
      * @var string
      */
-    protected $repo;
+    protected $id;
 
     /**
      * @var string
@@ -103,18 +103,18 @@ class Repo extends Record
      * @param string $repo
      * @return Repo
      */
-    public function setRepo($repo)
+    public function setId($repo)
     {
-        $this->repo = $repo;
+        $this->id = $repo;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getRepo()
+    public function getId()
     {
-        return $this->repo;
+        return $this->id;
     }
 
     /**

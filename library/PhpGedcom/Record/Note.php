@@ -15,6 +15,7 @@
 namespace PhpGedcom\Record;
 
 use PhpGedcom\Record;
+use PhpGedcom\Record\Note\Refn as RefnX;
 
 /**
  * Class Note
@@ -46,6 +47,7 @@ class Note extends Record
 
     /**
      * @var array
+     * @of Refn
      */
     protected $refn = array();
 
@@ -121,15 +123,15 @@ class Note extends Record
     /**
      * @param array $refn
      */
-    public function setRefn($refn)
+    public function setRefn(array $refn)
     {
         $this->refn = $refn;
     }
 
     /**
-     * @param Refn $refn
+     * @param RefnX $refn
      */
-    public function addRefn(Refn $refn)
+    public function addRefn(RefnX $refn)
     {
         $this->refn[] = $refn;
     }
