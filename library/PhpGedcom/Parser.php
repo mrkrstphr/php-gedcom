@@ -294,7 +294,6 @@ class Parser
                 } elseif (isset($record[2]) && $record[2] == 'FAM') {
                     $this->gedcom->addFam($this->parseRecord());
                 } elseif (isset($record[2]) && substr(trim($record[2]), 0, 4) == 'NOTE') {
-                    //Parser\Note::parse($this);
                     $this->gedcom->addNote($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'REPO') {
                     $this->gedcom->addRepo($this->parseRecord());
