@@ -14,10 +14,12 @@
 
 namespace PhpGedcom\Record\Indi;
 
+use PhpGedcom\Record\AbstractEven;
+
 /**
  * Class Prob
  * @package PhpGedcom\Record\Indi
  */
-class Prob extends Even
+class Prob extends AbstractEven
 {
 }

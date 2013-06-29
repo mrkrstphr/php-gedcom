@@ -14,11 +14,13 @@
 
 namespace PhpGedcom\Record\Indi;
 
+use PhpGedcom\Record\AbstractEven;
+
 /**
  * Class Birt
  * @package PhpGedcom\Record\Indi
  */
-class Birt extends Even
+class Birt extends AbstractEven
 {
     /**
      * @var string

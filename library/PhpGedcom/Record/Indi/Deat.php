@@ -14,10 +14,12 @@
 
 namespace PhpGedcom\Record\Indi;
 
+use PhpGedcom\Record\AbstractEven;
+
 /**
  * Class Deat
  * @package PhpGedcom\Record\Indi
  */
-class Deat extends Even
+class Deat extends AbstractEven
 {
 }

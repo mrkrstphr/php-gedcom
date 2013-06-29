@@ -13,10 +13,12 @@
  */
 namespace PhpGedcom\Record\Indi;
 
+use PhpGedcom\Record\AbstractEven;
+
 /**
  * Class Emig
  * @package PhpGedcom\Record\Indi
  */
-class Emig extends Even
+class Emig extends AbstractEven
 {
 }

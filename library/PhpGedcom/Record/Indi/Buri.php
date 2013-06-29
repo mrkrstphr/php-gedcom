@@ -14,10 +14,12 @@
 
 namespace PhpGedcom\Record\Indi;
 
+use PhpGedcom\Record\AbstractEven;
+
 /**
  * Class Buri
  * @package PhpGedcom\Record\Indi
  */
-class Buri extends Even
+class Buri extends AbstractEven
 {
 }

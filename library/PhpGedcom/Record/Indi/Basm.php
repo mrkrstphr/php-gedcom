@@ -14,10 +14,12 @@
 
 namespace PhpGedcom\Record\Indi;
 
+use PhpGedcom\Record\AbstractEven;
+
 /**
  * Class Basm
  * @package PhpGedcom\Record\Indi
  */
-class Basm extends Even
+class Basm extends AbstractEven
 {
 }

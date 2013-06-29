@@ -14,10 +14,12 @@
 
 namespace PhpGedcom\Record\Indi;
 
+use PhpGedcom\Record\AbstractEven;
+
 /**
  * Class Natu
  * @package PhpGedcom\Record\Indi
  */
-class Natu extends Even
+class Natu extends AbstractEven
 {
 }
