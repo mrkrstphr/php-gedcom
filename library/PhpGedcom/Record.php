@@ -68,6 +68,13 @@ abstract class Record
             }
 
             return $this->{'_' . $arr};
+        } elseif (substr($method, 0, 2) == 'is'){
+            $arr = strtolower(substr($method, 2));
+
+            if(!property_exists($this,'_',$arr)) {
+                throw new \Exception('Unknown ' . get_class($this) . '::' . $arr);
+            }
+            return $this->{'_' . $arr};
         } else {
             throw new \Exception('Unknown method called: ' . $method);
         }
