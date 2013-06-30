@@ -14,6 +14,7 @@
 
 namespace PhpGedcom;
 
+use PhpGedcom\Record\Head\Gedc;
 use zpt\anno\Annotations;
 
 /**
@@ -32,7 +33,7 @@ class Parser
     /**
      * Stores the GEDCOM objecting being built.
      *
-     * @var \PhpGedcom\Record\Gedcom
+     * @var \PhpGedcom\Gedcom
      */
     protected $gedcom;
     
@@ -73,12 +74,12 @@ class Parser
     /**
      *
      */
-    public function __construct(\PhpGedcom\Gedcom $gedcom = null)
+    public function __construct(Gedcom $gedcom = null)
     {
         if (!is_null($gedcom)) {
             $this->gedcom = $gedcom;
         } else {
-            $this->gedcom = new \PhpGedcom\Gedcom();
+            $this->gedcom = new Gedcom();
         }
     }
     
@@ -290,7 +291,7 @@ class Parser
                 } elseif (isset($record[2]) && $record[2] == 'SOUR') {
                     $this->gedcom->addSour($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'INDI') {
-                    Parser\Indi::parse($this);
+                    $this->gedcom->addIndi($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'FAM') {
                     $this->gedcom->addFam($this->parseRecord());
                 } elseif (isset($record[2]) && substr(trim($record[2]), 0, 4) == 'NOTE') {
@@ -387,8 +388,12 @@ class Parser
 
             if ($recordType == 'Cont' || $recordType == 'Conc') {
                 if (!empty($previousNode)) {
-                    $currentValue = call_user_func(array($object, 'get' . $previousNode)) .
-                        ($recordType == 'Cont' ? "\n" : "");
+                    if (method_exists($object, 'get' . $previousNode)) {
+                        $currentValue = call_user_func(array($object, 'get' . $previousNode)) .
+                            ($recordType == 'Cont' ? "\n" : "");
+                    } else {
+                        throw new \Exception('No getter defined for ' . get_class($object) . '::' . $previousNode);
+                    }
 
                     if (!empty($record[2])) {
                         $currentValue .= $this->prepareData($record[2]);
@@ -397,7 +402,12 @@ class Parser
                     call_user_func(array($object, 'set' . $previousNode), $currentValue);
                 }
             } else {
-                $this->attemptDataStorage($object, $classReflector, $recordType, !isset($record[2]) ?: $record[2]);
+                $this->attemptDataStorage(
+                    $object,
+                    $classReflector,
+                    $recordType,
+                    !isset($record[2]) ? null : $record[2]
+                );
             }
 
             $this->forward();
@@ -473,7 +483,7 @@ class Parser
                     } else {
                         // If we don't have an @of, we assume this is a scalar type we are adding to the array:
                         if ($reflector->hasMethod('add' . $property) && !empty($value)) {
-                            call_user_func(array($object, 'add' . $property), $this->prepareData($value));
+                            call_user_func(array($object, 'add' . $property), $value);
                         } else {
                             throw new \Exception(
                                 'Missing adder for ' . $reflector->getName() . '::' . $propertyReflector->getName()

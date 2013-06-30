@@ -16,7 +16,6 @@ namespace PhpGedcom\Record;
 
 use PhpGedcom\Record;
 use PhpGedcom\Record\ObjeRef;
-use PhpGedcom\Record\Refn;
 use PhpGedcom\Record\SourRef;
 
 /**
@@ -35,15 +34,94 @@ class Indi extends Record
     protected $id;
     
     /**
-     * @var string
+     * @var Indi\Chan
      */
     protected $chan;
     
     /**
      * @var array
+     * @of \PhpGedcom\Record\Indi\Attr
      */
     protected $attr = array();
-    
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Cast
+     */
+    protected $cast = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Dscr
+     */
+    protected $dscr = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Educ
+     */
+    protected $educ = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Idno
+     */
+    protected $idno = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Nati
+     */
+    protected $nati = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Nchi
+     */
+    protected $nchi = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Nmr
+     */
+    protected $nmr = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Occu
+     */
+    protected $occu = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Prop
+     */
+    protected $prop = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Reli
+     */
+    protected $reli = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Resi
+     */
+    protected $resi = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Ssn
+     */
+    protected $ssn = array();
+
+    /**
+     * @var array
+     * @of \PhpGedcom\Record\Indi\Titl
+     */
+    protected $titl = array();
+
     /**
      * @var array
      * @of \PhpGedcom\Record\Indi\Even
@@ -137,6 +215,8 @@ class Indi extends Record
     /**
      * @var array
      * @of \PhpGedcom\Record\Indi\Fcom
+
+
      */
     protected $fcom = array();
 
@@ -209,12 +289,12 @@ class Indi extends Record
     protected $resn;
     
     /**
-     *
+     * @var string
      */
     protected $rfn;
     
     /**
-     *
+     * @var string
      */
     protected $afn;
     
@@ -232,6 +312,7 @@ class Indi extends Record
     
     /**
      * @var array
+     * @of \PhpGedcom\Record\Indi\Asso
      */
     protected $asso = array();
     
@@ -252,6 +333,7 @@ class Indi extends Record
     
     /**
      * @var array
+     * @of \PhpGedcom\Record\Indi\Refn
      */
     protected $refn = array();
     
@@ -330,6 +412,370 @@ class Indi extends Record
     }
 
     /**
+     * @param array $cast
+     * @return $this
+     */
+    public function setCast($cast)
+    {
+        $this->cast = $cast;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Cast $cast
+     * @return $this
+     */
+    public function addCast(Indi\Cast $cast)
+    {
+        $this->cast[] = $cast;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCast()
+    {
+        return $this->cast;
+    }
+
+    /**
+     * @param array $dscr
+     * @return $this
+     */
+    public function setDscr($dscr)
+    {
+        $this->dscr = $dscr;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Dscr $dscr
+     * @return $this
+     */
+    public function addDscr(Indi\Dscr $dscr)
+    {
+        $this->dscr[] = $dscr;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDscr()
+    {
+        return $this->dscr;
+    }
+
+    /**
+     * @param array $educ
+     * @return $this
+     */
+    public function setEduc($educ)
+    {
+        $this->educ = $educ;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Educ $educ
+     * @return $this
+     */
+    public function addEduc(Indi\Educ $educ)
+    {
+        $this->educ[] = $educ;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEduc()
+    {
+        return $this->educ;
+    }
+
+    /**
+     * @param array $idno
+     * @return $this
+     */
+    public function setIdno($idno)
+    {
+        $this->idno = $idno;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Idno $idno
+     * @return $this
+     */
+    public function addIdno(Indi\Idno $idno)
+    {
+        $this->idno[] = $idno;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdno()
+    {
+        return $this->idno;
+    }
+
+    /**
+     * @param array $nati
+     * @return $this
+     */
+    public function setNati($nati)
+    {
+        $this->nati = $nati;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Nati $nati
+     * @return $this
+     */
+    public function addNati(Indi\Nati $nati)
+    {
+        $this->nati[] = $nati;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNati()
+    {
+        return $this->nati;
+    }
+
+    /**
+     * @param array $nchi
+     * @return $this
+     */
+    public function setNchi($nchi)
+    {
+        $this->nchi = $nchi;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Nchi $nchi
+     * @return $this
+     */
+    public function addNchi(Indi\Nchi $nchi)
+    {
+        $this->nchi[] = $nchi;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNchi()
+    {
+        return $this->nchi;
+    }
+
+    /**
+     * @param array $nmr
+     * @return $this
+     */
+    public function setNmr($nmr)
+    {
+        $this->nmr = $nmr;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Nmr $nmr
+     * @return $this
+     */
+    public function addNmr(Indi\Nmr $nmr)
+    {
+        $this->nmr[] = $nmr;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNmr()
+    {
+        return $this->nmr;
+    }
+
+    /**
+     * @param array $occu
+     * @return $this
+     */
+    public function setOccu($occu)
+    {
+        $this->occu = $occu;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Occu $occu
+     * @return $this
+     */
+    public function addOccu(Indi\Occu $occu)
+    {
+        $this->occu[] = $occu;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOccu()
+    {
+        return $this->occu;
+    }
+
+    /**
+     * @param array $prop
+     * @return $this
+     */
+    public function setProp($prop)
+    {
+        $this->prop = $prop;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Prop $prop
+     * @return $this
+     */
+    public function addProp(Indi\Prop $prop)
+    {
+        $this->prop[] = $prop;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getProp()
+    {
+        return $this->prop;
+    }
+
+    /**
+     * @param array $reli
+     * @return $this
+     */
+    public function setReli($reli)
+    {
+        $this->reli = $reli;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Reli $reli
+     * @return $this
+     */
+    public function addReli(Indi\Reli $reli)
+    {
+        $this->reli[] = $reli;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getReli()
+    {
+        return $this->reli;
+    }
+
+    /**
+     * @param array $resi
+     * @return $this
+     */
+    public function setResi($resi)
+    {
+        $this->resi = $resi;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Resi $resi
+     * @return $this
+     */
+    public function addResi(Indi\Resi $resi)
+    {
+        $this->resi[] = $resi;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getResi()
+    {
+        return $this->resi;
+    }
+
+    /**
+     * @param array $ssn
+     * @return $this
+     */
+    public function setSsn($ssn)
+    {
+        $this->ssn = $ssn;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Ssn $ssn
+     * @return $this
+     */
+    public function addSsn(Indi\Ssn $ssn)
+    {
+        $this->ssn[] = $ssn;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSsn()
+    {
+        return $this->ssn;
+    }
+
+    /**
+     * @param array $titl
+     * @return $this
+     */
+    public function setTitl($titl)
+    {
+        $this->titl = $titl;
+        return $this;
+    }
+
+    /**
+     * @param Indi\Titl $titl
+     * @return $this
+     */
+    public function addTitl(Indi\Titl $titl)
+    {
+        $this->titl[] = $titl;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTitl()
+    {
+        return $this->titl;
+    }
+
+    /**
      * @param Indi\Even $even
      * @return Indi
      */
@@ -349,6 +795,7 @@ class Indi extends Record
 
     /**
      * @param array $adop
+     * @return $this
      */
     public function setAdop(array $adop)
     {
@@ -376,6 +823,7 @@ class Indi extends Record
 
     /**
      * @param array $bapm
+     * @return $this
      */
     public function setBapm(array $bapm)
     {
@@ -403,6 +851,7 @@ class Indi extends Record
 
     /**
      * @param array $barm
+     * @return $this
      */
     public function setBarm(array $barm)
     {
@@ -430,6 +879,7 @@ class Indi extends Record
 
     /**
      * @param array $basm
+     * @return $this
      */
     public function setBasm(array $basm)
     {
@@ -457,6 +907,7 @@ class Indi extends Record
 
     /**
      * @param array $birt
+     * @return $this
      */
     public function setBirt(array $birt)
     {
@@ -484,6 +935,7 @@ class Indi extends Record
 
     /**
      * @param array $bles
+     * @return $this
      */
     public function setBles($bles)
     {
@@ -567,6 +1019,7 @@ class Indi extends Record
 
     /**
      * @param array $chr
+     * @return $this
      */
     public function setChr($chr)
     {
@@ -594,6 +1047,7 @@ class Indi extends Record
 
     /**
      * @param array $chra
+     * @return $this
      */
     public function setChra($chra)
     {
@@ -621,6 +1075,7 @@ class Indi extends Record
 
     /**
      * @param array $conf
+     * @return $this
      */
     public function setConf($conf)
     {
@@ -788,6 +1243,7 @@ class Indi extends Record
 
     /**
      * @param array $immi
+     * @return $this
      */
     public function setImmi($immi)
     {
@@ -815,6 +1271,7 @@ class Indi extends Record
 
     /**
      * @param array $natu
+     * @return $this
      */
     public function setNatu($natu)
     {
@@ -842,6 +1299,7 @@ class Indi extends Record
 
     /**
      * @param array $ordn
+     * @return $this
      */
     public function setOrdn($ordn)
     {
@@ -869,6 +1327,7 @@ class Indi extends Record
 
     /**
      * @param array $prob
+     * @return $this
      */
     public function setProb($prob)
     {
@@ -896,6 +1355,7 @@ class Indi extends Record
 
     /**
      * @param array $reti
+     * @return $this
      */
     public function setReti($reti)
     {
@@ -923,6 +1383,7 @@ class Indi extends Record
 
     /**
      * @param array $will
+     * @return $this
      */
     public function setWill($will)
     {
@@ -950,7 +1411,7 @@ class Indi extends Record
 
     /**
      * @param Indi\Asso $asso
-     * @return Indi
+     * @return $this
      */
     public function addAsso(Indi\Asso $asso)
     {
@@ -967,10 +1428,10 @@ class Indi extends Record
     }
 
     /**
-     * @param Refn $ref
-     * @return Indi
+     * @param Indi\Refn $ref
+     * @return $this
      */
-    public function addRefn(Refn $ref)
+    public function addRefn(Indi\Refn $ref)
     {
         $this->refn[] = $ref;
         return $this;
@@ -986,7 +1447,7 @@ class Indi extends Record
 
     /**
      * @param string $indi
-     * @return Indi
+     * @return $this
      */
     public function addAlia($indi)
     {
@@ -1004,7 +1465,7 @@ class Indi extends Record
 
     /**
      * @param Indi\Famc $famc
-     * @return Indi
+     * @return $this
      */
     public function addFamc(Indi\Famc $famc)
     {
@@ -1022,7 +1483,7 @@ class Indi extends Record
 
     /**
      * @param Indi\Fams $fams
-     * @return Indi
+     * @return $this
      */
     public function addFams(Indi\Fams $fams)
     {
@@ -1040,7 +1501,7 @@ class Indi extends Record
 
     /**
      * @param string $subm
-     * @return Indi
+     * @return $this
      */
     public function addAnci($subm)
     {
@@ -1058,7 +1519,7 @@ class Indi extends Record
 
     /**
      * @param string $subm
-     * @return Indi
+     * @return $this
      */
     public function addDesi($subm)
     {
@@ -1076,7 +1537,7 @@ class Indi extends Record
 
     /**
      * @param string $subm
-     * @return Indi
+     * @return $this
      */
     public function addSubm($subm)
     {
@@ -1094,7 +1555,7 @@ class Indi extends Record
 
     /**
      * @param string $resn
-     * @return Indi
+     * @return $this
      */
     public function setResn($resn)
     {
@@ -1112,7 +1573,7 @@ class Indi extends Record
 
     /**
      * @param string $sex
-     * @return Indi
+     * @return $this
      */
     public function setSex($sex)
     {
@@ -1130,7 +1591,7 @@ class Indi extends Record
 
     /**
      * @param string $rfn
-     * @return Indi
+     * @return $this
      */
     public function setRfn($rfn)
     {
@@ -1148,7 +1609,7 @@ class Indi extends Record
 
     /**
      * @param string $afn
-     * @return Indi
+     * @return $this
      */
     public function setAfn($afn)
     {
@@ -1165,17 +1626,17 @@ class Indi extends Record
     }
 
     /**
-     * @param string $chan
-     * @return Indi
+     * @param Indi\Chan $chan
+     * @return $this
      */
-    public function setChan($chan)
+    public function setChan(Indi\Chan $chan)
     {
         $this->chan = $chan;
         return $this;
     }
 
     /**
-     * @return string
+     * @return Indi\Chan
      */
     public function getChan()
     {
@@ -1184,7 +1645,7 @@ class Indi extends Record
 
     /**
      * @param string $rin
-     * @return Indi
+     * @return $this
      */
     public function setRin($rin)
     {
@@ -1202,7 +1663,7 @@ class Indi extends Record
 
     /**
      * @param Indi\Bapl $bapl
-     * @return Indi
+     * @return $this
      */
     public function setBapl(Indi\Bapl $bapl)
     {
@@ -1220,7 +1681,7 @@ class Indi extends Record
 
     /**
      * @param Indi\Conl $conl
-     * @return Indi
+     * @return $this
      */
     public function setConl(Indi\Conl $conl)
     {
@@ -1238,7 +1699,7 @@ class Indi extends Record
 
     /**
      * @param Indi\Endl $endl
-     * @return Indi
+     * @return $this
      */
     public function setEndl(Indi\Endl $endl)
     {
@@ -1256,7 +1717,7 @@ class Indi extends Record
 
     /**
      * @param Indi\Slgc $slgc
-     * @return Indi
+     * @return $this
      */
     public function setSlgc(Indi\Slgc $slgc)
     {
