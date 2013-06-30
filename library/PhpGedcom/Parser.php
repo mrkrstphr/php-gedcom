@@ -134,53 +134,6 @@ class Parser
     }
     
     /**
-     *
-     * @return string
-     */
-    public function parseMultiLineRecord()
-    {
-        $record = $this->getCurrentLineRecord();
-        
-        $depth = (int)$record[0];
-        $data = isset($record[2]) ? trim($record[2]) : '';
-        
-        $this->forward();
-        
-        while (!$this->eof()) {
-            $record = $this->getCurrentLineRecord();
-            $recordType = strtoupper(trim($record[1]));
-            $currentDepth = (int)$record[0];
-            
-            if ($currentDepth <= $depth) {
-                $this->back();
-                break;
-            }
-            
-            switch ($recordType) {
-                case 'CONT':
-                    $data .= "\n";
-                    
-                    if (isset($record[2])) {
-                        $data .= trim($record[2]);
-                    }
-                    break;
-                case 'CONC':
-                    if (isset($record[2])) {
-                        $data .= ' ' . trim($record[2]);
-                    }
-                    break;
-                default:
-                    $this->back();
-                    break 2;
-            }
-            
-            $this->forward();
-        }
-        
-        return $data;
-    }
-    
-    /**
      * 
      * @return string The current line
      */
@@ -396,7 +349,7 @@ class Parser
                     }
 
                     if (!empty($record[2])) {
-                        $currentValue .= $this->prepareData($record[2]);
+                        $currentValue .= $record[2];
                     }
 
                     call_user_func(array($object, 'set' . $previousNode), $currentValue);
@@ -462,7 +415,7 @@ class Parser
                     // Call the set{$property} method to set the value, if such a method exists
                     if ($reflector->hasMethod('set' . $property)) {
                         if (isset($value)) {
-                            call_user_func(array($object, 'set' . $property), $this->prepareData($value));
+                            call_user_func(array($object, 'set' . $property), $value);
                         }
                     } else {
                         throw new \Exception(
@@ -511,14 +464,5 @@ class Parser
             // No matching property was found on the object
             $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
         }
-    }
-
-    /**
-     * @param string $value
-     * @return string
-     */
-    protected function prepareData($value)
-    {
-        return $value;
     }
 }
