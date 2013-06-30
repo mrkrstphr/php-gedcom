@@ -2,12 +2,12 @@
 
 namespace PhpGedcom\Record\Indi\Even;
 
-use PhpGedcom\Record\AbstractPlac;
+use PhpGedcom\Record\AbstractObjeRef;
 
 /**
- * Class Plac
+ * Class Obje
  * @package PhpGedcom\Record\Indi\Even
  */
-class Plac extends AbstractPlac
+class Obje extends AbstractObjeRef
 {
 }

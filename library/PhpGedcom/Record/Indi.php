@@ -14,9 +14,7 @@
 
 namespace PhpGedcom\Record;
 
-use PhpGedcom\Parser\Indi\Adop;
 use PhpGedcom\Record;
-use PhpGedcom\Record\NoteRef;
 use PhpGedcom\Record\ObjeRef;
 use PhpGedcom\Record\Refn;
 use PhpGedcom\Record\SourRef;
@@ -48,6 +46,7 @@ class Indi extends Record
     
     /**
      * @var array
+     * @of \PhpGedcom\Record\Indi\Even
      */
     protected $even = array();
 
@@ -71,7 +70,7 @@ class Indi extends Record
 
     /**
      * @var array
-     * \PhpGedcom\Record\Indi\Barm
+     * @of \PhpGedcom\Record\Indi\Barm
      */
     protected $barm = array();
 
@@ -358,10 +357,10 @@ class Indi extends Record
     }
 
     /**
-     * @param Adop $adop
+     * @param Indi\Adop $adop
      * @return $this
      */
-    public function addAdop(Adop $adop)
+    public function addAdop(Indi\Adop $adop)
     {
         $this->adop[] = $adop;
         return $this;
@@ -649,6 +648,7 @@ class Indi extends Record
 
     /**
      * @param array $crem
+     * @return $this
      */
     public function setCrem($crem)
     {
@@ -676,6 +676,7 @@ class Indi extends Record
 
     /**
      * @param array $deat
+     * @return $this
      */
     public function setDeat($deat)
     {
@@ -703,6 +704,7 @@ class Indi extends Record
 
     /**
      * @param array $emig
+     * @return $this
      */
     public function setEmig($emig)
     {
@@ -730,6 +732,7 @@ class Indi extends Record
 
     /**
      * @param array $fcom
+     * @return $this
      */
     public function setFcom($fcom)
     {
@@ -757,6 +760,7 @@ class Indi extends Record
 
     /**
      * @param array $grad
+     * @return $this
      */
     public function setGrad($grad)
     {

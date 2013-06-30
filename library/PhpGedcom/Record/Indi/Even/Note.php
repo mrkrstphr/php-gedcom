@@ -2,12 +2,12 @@
 
 namespace PhpGedcom\Record\Indi\Even;
 
-use PhpGedcom\Record\AbstractPlac;
+use PhpGedcom\Record\AbstractNoteRef;
 
 /**
- * Class Plac
+ * Class Note
  * @package PhpGedcom\Record\Indi\Even
  */
-class Plac extends AbstractPlac
+class Note extends AbstractNoteRef
 {
 }
