@@ -15,6 +15,7 @@
 namespace PhpGedcomTest;
 
 use PhpGedcom\Parser;
+use PhpGedcom\Parser\ParserFactory;
 
 /**
  * Class ParserTest
@@ -23,7 +24,7 @@ use PhpGedcom\Parser;
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PhpGedcom\Parser
+     * @var \PhpGedcom\Parser\AbstractFileParser
      */
     protected $parser  = null;
     
@@ -37,8 +38,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parser = new Parser();
-        $this->gedcom = $this->parser->parse(TEST_DIR . '/stresstestfiles/TGC551LF.ged');
+        $this->parser = ParserFactory::createParser(
+            TEST_DIR . '/stresstestfiles/TGC551LF.ged',
+            ParserFactory::GEDCOM55
+        );
+        $this->gedcom = $this->parser->parse();
     }
 
     /**

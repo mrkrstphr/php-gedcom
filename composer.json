@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-0": {
-            "PhpGedcom\\": "library/"
+            "PhpGedcom\\": "src/"
         }
     }
 }

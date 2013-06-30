@@ -1,69 +1,16 @@
 <?php
-/**
- * php-gedcom
- *
- * php-gedcom is a library for parsing, manipulating, importing and exporting
- * GEDCOM 5.5 files in PHP 5.3+.
- *
- * @author          Kristopher Wilson <kristopherwilson@gmail.com>
- * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
- * @link            http://github.com/mrkrstphr/php-gedcom
- */
 
-namespace PhpGedcom;
+namespace PhpGedcom\Parser;
 
-use PhpGedcom\Record\Head\Gedc;
 use zpt\anno\Annotations;
+use PhpGedcom\Gedcom;
 
 /**
- * Class Parser
- * @package PhpGedcom
+ * Class Gedcom55Parser
+ * @package PhpGedcom\Parser
  */
-class Parser
+class Gedcom55Parser extends AbstractFileParser
 {
-    /**
-     * Stores a resource pointer to the file being parsed.
-     *
-     * @var Resource
-     */
-    protected $file = null;
-    
-    /**
-     * Stores the GEDCOM objecting being built.
-     *
-     * @var \PhpGedcom\Gedcom
-     */
-    protected $gedcom;
-    
-    /**
-     * Stores a list of errors encountered during the parsing process.
-     *
-     * @var array
-     */
-    protected $errors = array();
-    
-    /**
-     * @var integer
-     */
-    protected $linesParsed = 0;
-    
-    /**
-     * @var string
-     */
-    protected $line;
-    
-    /**
-     * @var array
-     */
-    protected $lineRecord;
-    
-    /**
-     * @var string
-     */
-    protected $returnedLine;
-
     /**
      * A stack to keep track of the current path through the GEDCOM file during parsing.
      *
@@ -72,85 +19,16 @@ class Parser
     protected $path = array();
 
     /**
+     * Parses the current line into the lineRecord variable.
      *
-     */
-    public function __construct(Gedcom $gedcom = null)
-    {
-        if (!is_null($gedcom)) {
-            $this->gedcom = $gedcom;
-        } else {
-            $this->gedcom = new Gedcom();
-        }
-    }
-    
-    /**
-     *
-     */
-    public function forward()
-    {
-        // if there was a returned line by back(), set that as our current
-        // line and blank out the returnedLine variable, otherwise grab
-        // the next line from the file
-        
-        if (!empty($this->returnedLine)) {
-            $this->line = $this->returnedLine;
-            $this->returnedLine = '';
-        } else {
-            $this->line = fgets($this->file);
-            $this->lineRecord = null;
-            $this->linesParsed++;
-        }
-        
-        return $this;
-    }
-    
-    /**
-     *
-     */
-    public function back()
-    {
-        // our parser object encountered a line it wasn't meant to parse
-        // store this line for the previous parser to analyze
-        
-        $this->returnedLine = $this->line;
-        
-        return $this;
-    }
-    
-    /**
-     *
-     */
-    public function getGedcom()
-    {
-        return $this->gedcom;
-    }
-    
-    /**
-     *
-     */
-    public function eof()
-    {
-        return feof($this->file);
-    }
-    
-    /**
-     * 
-     * @return string The current line
-     */
-    public function getCurrentLine()
-    {
-        return $this->line;
-    }
-    
-    /**
-     *
+     * @return array
      */
     public function getCurrentLineRecord()
     {
         if (!is_null($this->lineRecord)) {
             return $this->lineRecord;
         }
-        
+
         if (empty($this->line)) {
             return false;
         }
@@ -162,22 +40,16 @@ class Parser
         }
 
         $line = trim($this->line);
-        
+
         $this->lineRecord = explode(' ', $line, $pieces);
-        
+
         return $this->lineRecord;
     }
-    
+
     /**
+     * Logs a line in the file that couldn't be parsed.
      *
-     */
-    protected function logError($error)
-    {
-        $this->errors[] = $error;
-    }
-    
-    /**
-     *
+     * @param string $additionalInfo
      */
     public function logUnhandledRecord($additionalInfo = '')
     {
@@ -186,16 +58,10 @@ class Parser
             (!empty($additionalInfo) ? ' - ' . $additionalInfo : '')
         );
     }
-    
-    /**
-     *
-     */
-    public function getErrors()
-    {
-        return $this->errors;
-    }
 
     /**
+     * Normalizes a Gedcom 5.5 identifier, which is wrapped by @'s.
+     *
      * @param string $identifier
      * @return string
      */
@@ -203,28 +69,28 @@ class Parser
     {
         $identifier = trim($identifier);
         $identifier = trim($identifier, '@');
-        
+
         return $identifier;
     }
-    
+
     /**
+     * Parses the GEDCOM file and returns a PHP Object representation of its contents.
      *
-     * @param string $fileName
-     * @return Gedcom
+     * @return Gedcom|bool
      */
-    public function parse($fileName)
+    public function parse()
     {
-        $this->file = fopen($fileName, 'r');
-        
+        $gedcom = new Gedcom();
+
         if (!$this->file) {
-            return null;
+            return false;
         }
-        
+
         $this->forward();
-        
+
         while (!$this->eof()) {
             $record = $this->getCurrentLineRecord();
-            
+
             if ($record === false) {
                 continue;
             }
@@ -233,26 +99,26 @@ class Parser
 
             // We only process 0 level records here. Sub levels are processed
             // in methods for those data types (individuals, sources, etc)
-            
+
             if ($depth == 0) {
                 if (trim($record[1]) == 'HEAD') {
-                    $this->gedcom->setHead($this->parseRecord());
+                    $gedcom->setHead($this->parseRecord());
                 } elseif (isset($record[2]) && trim($record[2]) == 'SUBN') {
-                    $this->gedcom->setSubn($this->parseRecord());
+                    $gedcom->setSubn($this->parseRecord());
                 } elseif (isset($record[2]) && trim($record[2]) == 'SUBM') {
-                    $this->gedcom->addSubm($this->parseRecord());
+                    $gedcom->addSubm($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'SOUR') {
-                    $this->gedcom->addSour($this->parseRecord());
+                    $gedcom->addSour($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'INDI') {
-                    $this->gedcom->addIndi($this->parseRecord());
+                    $gedcom->addIndi($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'FAM') {
-                    $this->gedcom->addFam($this->parseRecord());
+                    $gedcom->addFam($this->parseRecord());
                 } elseif (isset($record[2]) && substr(trim($record[2]), 0, 4) == 'NOTE') {
-                    $this->gedcom->addNote($this->parseRecord());
+                    $gedcom->addNote($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'REPO') {
-                    $this->gedcom->addRepo($this->parseRecord());
+                    $gedcom->addRepo($this->parseRecord());
                 } elseif (isset($record[2]) && $record[2] == 'OBJE') {
-                    $this->gedcom->addObje($this->parseRecord());
+                    $gedcom->addObje($this->parseRecord());
                 } elseif (trim($record[1]) == 'TRLR') {
                     // EOF
                     break;
@@ -266,11 +132,13 @@ class Parser
             $this->forward();
         }
 
-        return $this->getGedcom();
+        return $gedcom;
     }
 
     /**
+     * Parses an individual record within the GEDCOM file.
      *
+     * @return AbstractRecord
      */
     public function parseRecord()
     {
@@ -378,6 +246,8 @@ class Parser
     }
 
     /**
+     * Determines if the value passed as a GEDCOM identifier.
+     *
      * @param string $value
      * @return bool
      */
@@ -387,6 +257,8 @@ class Parser
     }
 
     /**
+     * Attempts to store the value in the proper location of the GEDCOM record tree.
+     * 
      * @param object $object
      * @param \ReflectionClass $reflector
      * @param string $property
