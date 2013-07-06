@@ -127,7 +127,7 @@ abstract class AbstractFileParser
      * @param string $error
      * @return $this
      */
-    protected function logError($error)
+    public function logError($error)
     {
         $this->errors[] = $error;
         return $this;
