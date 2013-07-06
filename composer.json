@@ -11,6 +11,7 @@
     },
     "require-dev": {
         "phpunit/PHPUnit": "3.7.*",
+        "mikey179/vfsStream": "1.2.*",
         "squizlabs/php_codesniffer": "1.*"
     },
     "autoload": {

@@ -39,7 +39,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->parser = ParserFactory::createParser(
-            TEST_DIR . '/stresstestfiles/TGC551LF.ged',
+            TEST_DIR . '/functional/stresstestfiles/TGC551LF.ged',
             ParserFactory::GEDCOM55
         );
         $this->gedcom = $this->parser->parse();
