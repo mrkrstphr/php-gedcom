@@ -11,4 +11,8 @@ before_script:
 script:
     - vendor/bin/phpunit -c tests/phpunit.xml --coverage-clover build/logs/clover.xml tests/
     - vendor/bin/phpcs --standard=PSR2 -n src/ tests/
+    - vendor/bin/clover-dump build/logs/clover.xml
 
+before_script:
+    - curl -s https://getcomposer.org/installer | php
+    - php composer.phar install --prefer-source --dev
