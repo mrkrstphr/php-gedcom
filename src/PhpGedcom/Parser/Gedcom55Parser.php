@@ -190,6 +190,8 @@ class Gedcom55Parser extends AbstractFileParser
                 $this->attemptDataStorage($object, $classReflector, $nodeType, $data);
                 // if we actually have content here, make sure to mark it as the previous node for
                 // concatenation sake
+            } else {
+                $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
             }
 
             $previousNode = ucfirst(strtolower($nodeType));
@@ -331,6 +333,14 @@ class Gedcom55Parser extends AbstractFileParser
                 throw new \Exception(
                     'Missing @var docblock for ' . $reflector->getName() . '::' . $property
                 );
+            }
+        } elseif ($this->hasCustomTag(get_class($object), strtolower($property))) {
+            $tag = $this->getCustomTag(get_class($object), strtolower($property));
+
+            if (empty($tag['valueObject'])) {
+                $object->addCustomTagValue(strtolower($property), $value);
+            } else {
+                throw new \Exception('Unimplemented');
             }
         } else {
             // No matching property was found on the object

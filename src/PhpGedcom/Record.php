@@ -15,10 +15,18 @@
 namespace PhpGedcom;
 
 /**
- *
+ * Class Record
+ * @package PhpGedcom
  */
 abstract class Record
 {
+    /**
+     * An array of values for custom tags.
+     *
+     * @var array
+     */
+    protected $customTagValues = array();
+
     /**
      * Checks if this GEDCOM object has the provided attribute (ie, if the provided
      * attribute exists below the current object in its tree).
@@ -29,5 +37,34 @@ abstract class Record
     public function hasAttribute($var)
     {
         return property_exists($this, '_' . $var) || property_exists($this, $var);
+    }
+
+    /**
+     * Return a custom tag value, or false if none is found.
+     *
+     * @param string $tag
+     * @return bool|string
+     */
+    public function getCustomTagValue($tag)
+    {
+        if (isset($this->customTagValues[strtolower($tag)])) {
+            return $this->customTagValues[strtolower($tag)];
+        }
+
+        return false;
+    }
+
+    /**
+     * Store a custom tag value.
+     *
+     * @param string $tag
+     * @param string $value
+     * @return $this
+     */
+    public function addCustomTagValue($tag, $value)
+    {
+        $this->customTagValues[strtolower($tag)] = $value;
+
+        return $this;
     }
 }

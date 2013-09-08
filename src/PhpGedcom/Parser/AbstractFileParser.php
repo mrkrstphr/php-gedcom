@@ -51,6 +51,13 @@ abstract class AbstractFileParser
     protected $returnedLine;
 
     /**
+     * Stores an array of custom tags that will be parsed when reading the file.
+     *
+     * @var array
+     */
+    protected $customTags = array();
+
+    /**
      * Open the passed file for reading.
      *
      * @param string $file
@@ -141,6 +148,61 @@ abstract class AbstractFileParser
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Registers a custom tag with the parser. When parsing a node of $nodeClass, the parse will look for the tag
+     * $tag, and, if an $valueObject is supplied, use that object to parse it, otherwise it is treated as a string.
+     *
+     * @param string $nodeClass
+     * @param string $tag
+     * @param string $valueObject
+     * @return $this
+     */
+    public function registerCustomTag($nodeClass, $tag, $valueObject = null)
+    {
+        $this->customTags[$nodeClass][strtolower($tag)] = array(
+            'nodeClass' => $nodeClass,
+            'tag' => $tag,
+            'valueObject' => $valueObject
+        );
+
+        return $this;
+    }
+
+    /**
+     * Returns an array of registered custom tags.
+     *
+     * @return array
+     */
+    public function getCustomTags()
+    {
+        return $this->customTags;
+    }
+
+    /**
+     * Get the custom tag for a specified class and tag name.
+     *
+     * @param string $nodeClass
+     * @param string $tag
+     * @return array
+     */
+    public function getCustomTag($nodeClass, $tag)
+    {
+        return $this->customTags[$nodeClass][strtolower($tag)];
+    }
+
+    /**
+     * Returns whether a custom tag is configured for the class and tag name.
+     *
+     * @param string $nodeClass
+     * @param string $tag
+     * @return bool
+     */
+    public function hasCustomTag($nodeClass, $tag)
+    {
+        return isset($this->customTags[$nodeClass]) &&
+            isset($this->customTags[$nodeClass][strtolower($tag)]);
     }
 
     /**
