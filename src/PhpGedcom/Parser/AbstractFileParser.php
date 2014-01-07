@@ -2,6 +2,8 @@
 
 namespace PhpGedcom\Parser;
 
+use SplFileObject;
+
 /**
  * Class AbstractFileParser
  * @package PhpGedcom\Parser
@@ -11,7 +13,7 @@ abstract class AbstractFileParser
     /**
      * Stores a resource pointer to the file being parsed.
      *
-     * @var Resource
+     * @var SplFileObject
      */
     protected $file;
 
@@ -57,7 +59,7 @@ abstract class AbstractFileParser
      */
     public function __construct($file)
     {
-        $this->file = fopen($file, 'r');
+        $this->file = new SplFileObject($file, 'r');
     }
 
     /**
@@ -76,7 +78,7 @@ abstract class AbstractFileParser
             $this->line = $this->returnedLine;
             $this->returnedLine = '';
         } else {
-            $this->line = fgets($this->file);
+            $this->line = $this->file->fgets();
             $this->linesParsed++;
             $this->lineRecord = null;
         }
@@ -108,7 +110,7 @@ abstract class AbstractFileParser
      */
     public function eof()
     {
-        return feof($this->file);
+        return $this->file->eof();
     }
 
     /**
