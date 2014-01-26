@@ -116,11 +116,11 @@ class Gedcom
     /**
      * Adds an individual to the collection of individuals.
      *
-     * @param Record\Indi $indi
+     * @param array
      */
-    public function addIndi(Record\Indi $indi)
+    public function addIndi(array $indi)
     {
-        $this->indi[$indi->getId()] = $indi;
+        $this->indi[$indi['id']] = $indi;
     }
 
     /**

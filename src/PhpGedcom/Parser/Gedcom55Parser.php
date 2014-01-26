@@ -12,6 +12,11 @@ use PhpGedcom\Gedcom;
 class Gedcom55Parser extends AbstractFileParser
 {
     /**
+     * @var array
+     */
+    protected $fileMap = array();
+
+    /**
      * A stack to keep track of the current path through the GEDCOM file during parsing.
      *
      * @var array
@@ -135,6 +140,150 @@ class Gedcom55Parser extends AbstractFileParser
         return $gedcom;
     }
 
+    public function scan()
+    {
+        if (!$this->file) {
+            return false;
+        }
+
+        $this->forward();
+
+        while (!$this->eof()) {
+            $record = $this->getCurrentLineRecord();
+
+            if ($record === false) {
+                continue;
+            }
+
+            $depth = (int)$record[0];
+
+            // We only process 0 level records here. Sub levels are processed
+            // in methods for those data types (individuals, sources, etc)
+
+            if (trim($record[1]) == 'TRLR') {
+                break;
+            }
+
+            if ($depth == 0) {
+                $this->scanRecord();
+            } else {
+                $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+            }
+
+            $this->forward();
+        }
+
+        //print_r($this->fileMap);
+
+        return $this;
+    }
+
+    public function scanRecord()
+    {
+        $record = $this->getCurrentLineRecord();
+        $depth = (int)$record[0];
+        $identifier = ($record[1]);
+
+        //echo '-- Scanning: ' . implode('::', $record) . " @ line #" . $this->linesParsed . "\n";
+
+        // The nodeType is the piece of data we are trying to store (NAME, DATE, SOUR, etc).
+        $nodeType = trim($record[1]);
+
+        $data = null;
+        $extraData = null; // silly notes
+
+        // At 0 level depth, the identifier comes after the nodeType (except for HEAD);
+        if ($depth == 0 && $identifier !== 'HEAD' && $identifier !== 'TRLR') {
+            $nodeType = trim($record[2]);
+            $data = $record[1];
+        } elseif ($depth > 0 && isset($record[2])) {
+            $data = $record[2];
+        }
+
+        $this->fileMap[$nodeType][$this->linesParsed - 1] = [
+            'id' => $this->normalizeIdentifier($data)
+        ];
+
+        // Push this node onto the stack of our namespace path:
+        array_push($this->path, ucfirst(strtolower($nodeType)));
+
+        $this->forward();
+
+        while (!$this->eof()) {
+            $record = $this->getCurrentLineRecord();
+            $currentDepth = (int)$record[0];
+
+            if ($currentDepth <= $depth) {
+                $this->back();
+                break;
+            }
+
+            $this->forward();
+        }
+
+        // Now that we're done parsing this node, pop it off our namespace path:
+        array_pop($this->path);
+    }
+
+    public function hasCachedMap($path)
+    {
+        if (file_exists($path . '/scan-map.json')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function cacheMap($path)
+    {
+        file_put_contents($path . '/scan-map.json', json_encode($this->fileMap));
+
+        return $this;
+    }
+
+    public function loadCachedMap($path)
+    {
+        if (!$this->hasCachedMap($path)) {
+            return false;
+        }
+
+        $map = json_decode(file_get_contents($path . '/scan-map.json'), true);
+
+        if ($map) {
+            $this->fileMap = $map;
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public function seekLine($lineNumber)
+    {
+        $this->linesParsed = $lineNumber;
+        $this->file->seek($lineNumber);
+        $this->forward();
+    }
+
+    /**
+     * @param int $start
+     * @param int $length
+     * @return \Generator
+     */
+    public function getIndi($start = 0, $length = null)
+    {
+        if (isset($this->fileMap['INDI'])) {
+            $map = array_slice($this->fileMap['INDI'], $start, $length, true);
+
+            foreach ($map as $line => $indi) {
+                $this->seekLine($line - 1);
+                $indi = $this->parseRecord();
+
+                yield $indi;
+            }
+        }
+    }
+
     /**
      * Parses an individual record within the GEDCOM file.
      *
@@ -143,6 +292,7 @@ class Gedcom55Parser extends AbstractFileParser
     public function parseRecord()
     {
         $record = $this->getCurrentLineRecord();
+
         $depth = (int)$record[0];
         $identifier = ($record[1]);
 

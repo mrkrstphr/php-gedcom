@@ -262,6 +262,7 @@ class Gedcom55StreamingParser extends AbstractFileParser
     public function seekLine($lineNumber)
     {
         $this->linesParsed = $lineNumber;
+        $this->returnedLine = '';
         $this->file->seek($lineNumber);
         $this->forward();
     }
@@ -273,8 +274,23 @@ class Gedcom55StreamingParser extends AbstractFileParser
      */
     public function getIndi($start = 0, $length = null)
     {
-        if (isset($this->fileMap['INDI'])) {
-            $map = array_slice($this->fileMap['INDI'], $start, $length, true);
+        return $this->getTagType('INDI', $start, $length);
+    }
+
+    /**
+     * @param int $start
+     * @param int $length
+     * @return \Generator
+     */
+    public function getFam($start = 0, $length = null)
+    {
+        return $this->getTagType('FAM', $start, $length);
+    }
+
+    protected function getTagType($type, $start = 0, $length = null)
+    {
+        if (isset($this->fileMap[$type])) {
+            $map = array_slice($this->fileMap[$type], $start, $length, true);
 
             foreach ($map as $line => $indi) {
                 $this->seekLine($line - 1);
