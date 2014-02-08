@@ -75,6 +75,10 @@ class SourRef extends \PhpGedcom\Parser\Component
                     $even = \PhpGedcom\Parser\SourRef\Even::parse($parser);
                     $sour->setEven($even);
                     break;
+                case 'OBJE':
+                    $obje = \PhpGedcom\Parser\ObjeRef::parse($parser);
+                    $sour->addObje($obje);
+                    break;
                 default:
                     $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
                 }
