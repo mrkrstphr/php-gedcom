@@ -31,7 +31,18 @@ class SourRef extends \PhpGedcom\Parser\Component
         $depth = (int)$record[0];
 
         $sour = new \PhpGedcom\Record\SourRef();
-        $sour->setSour($record[2]);
+
+        if(preg_match('/^@.*@$/',$record[2])){
+            $isReference = true;
+            $sour->setIsReference(true);
+            $identifier = $parser->normalizeIdentifier($record[2]);
+            $sour->setSour($identifier);
+        }else{
+            $isReference = false;
+            $sour->setIsReference(false);
+            $sour->setSour($record[2]);
+        }
+
 
         $parser->forward();
 
@@ -45,23 +56,9 @@ class SourRef extends \PhpGedcom\Parser\Component
                 break;
             }
 
-            switch ($recordType) {
-                case 'CONT':
-                    $sour->setSour($sour->getSour() . "\n");
-
-                    if (isset($record[2])) {
-                        $sour->setSour($sour->getSour() . $record[2]);
-                    }
-                    break;
-                case 'CONC':
-                    if (isset($record[2])) {
-                        $sour->setSour($sour->getSour() . $record[2]);
-                    }
-                    break;
-                case 'TEXT':
-                    $sour->setText($parser->parseMultiLineRecord());
-                    break;
-                case 'NOTE':
+            if($isReference){
+                switch ($recordType) {
+                case 'NOTE': 
                     $note = \PhpGedcom\Parser\NoteRef::parse($parser);
                     $sour->addNote($note);
                     break;
@@ -80,6 +77,30 @@ class SourRef extends \PhpGedcom\Parser\Component
                     break;
                 default:
                     $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+                }
+            } else {
+                switch ($recordType) {
+                case 'CONT': 
+                    $sour->setSour($sour->getSour() . "\n");
+                    if (isset($record[2])) {
+                        $sour->setSour($sour->getSour() . $record[2]);
+                    }
+                    break;
+                case 'CONC':
+                    if (isset($record[2])) {
+                        $sour->setSour($sour->getSour() . $record[2]);
+                    }
+                    break;
+                case 'TEXT':
+                    $sour->setText($parser->parseMultiLineRecord());
+                    break;
+                case 'NOTE':
+                    $note = \PhpGedcom\Parser\NoteRef::parse($parser);
+                    $sour->addNote($note);
+                    break;
+                default:
+                    $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
+                }
             }
 
             $parser->forward();

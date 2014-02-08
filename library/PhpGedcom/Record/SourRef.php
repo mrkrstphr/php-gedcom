@@ -30,4 +30,20 @@ class SourRef extends \PhpGedcom\Record
     
     protected $_obje    = array();
     protected $_note    = array();
+
+    /**
+     *
+     */
+    public function setIsReference($isReference = true)
+    {
+        $this->_isRef = $isReference;
+    }
+    
+    /**
+     *
+     */
+    public function getIsReference()
+    {
+        return $this->_isRef;
+    }
 }
