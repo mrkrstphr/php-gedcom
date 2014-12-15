@@ -14,7 +14,7 @@ trait SourceableTrait
      * @var array
      * @of AbstractSourRef
      */
-    protected $sour;
+    protected $sour = [];
 
     /**
      * @param array $sour

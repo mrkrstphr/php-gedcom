@@ -143,7 +143,7 @@ class Gedcom55StreamingParser extends AbstractFileParser
 
     public function scan()
     {
-        if (!$this->file) {
+        if (!$this->file->isReadable()) {
             return false;
         }
 
@@ -285,6 +285,16 @@ class Gedcom55StreamingParser extends AbstractFileParser
     public function getFam($start = 0, $length = null)
     {
         return $this->getTagType('FAM', $start, $length);
+    }
+
+    /**
+     * @param int $start
+     * @param int $length
+     * @return \Generator
+     */
+    public function getSour($start = 0, $length = null)
+    {
+        return $this->getTagType('SOUR', $start, $length);
     }
 
     protected function getTagType($type, $start = 0, $length = null)
