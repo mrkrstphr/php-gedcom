@@ -87,9 +87,9 @@ class Gedcom55Parser extends AbstractFileParser
     {
         $gedcom = new Gedcom();
 
-        if (!$this->file) {
-            return false;
-        }
+//        if (!$this->file) {
+//            return false;
+//        }
 
         $this->forward();
 

@@ -1,3 +1,2 @@
-vendor/*
-.idea/*
-tmp/*
+_site
+.sass-cache

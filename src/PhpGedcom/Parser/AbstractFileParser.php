@@ -3,6 +3,7 @@
 namespace PhpGedcom\Parser;
 
 use SplFileObject;
+use PhpGedcom\Gedcom;
 
 /**
  * Class AbstractFileParser
@@ -148,7 +149,7 @@ abstract class AbstractFileParser
     /**
      * The abstract parse() method needs to be implemented by the extending child class to actually parse the file.
      *
-     * @return mixed
+     * @return Gedcom|bool
      */
     abstract public function parse();
 }
