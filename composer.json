@@ -1,20 +1,29 @@
 {
-    "name": "mrkrstphr/php-gedcom",
-    "description": "A GEDCOM file parser (read + write) for PHP 5.3+",
-    "type": "library", 
-    "keywords": ["gedcom","parser"],
-    "homepage": "http://github.com/mrkrstphr/php-gedcom",
-    "license": "GPL-3.0",
-    "require": {
-        "php": ">=5.3"
-    },
-    "require-dev": {
-        "phpunit/PHPUnit": "3.7.*",
-        "squizlabs/php_codesniffer": "1.*"
-    },
-    "autoload": {
-        "psr-0": {
-            "PhpGedcom\\": "library/"
-        }
+  "name": "mrkrstphr/php-gedcom",
+  "description": "A GEDCOM file parser for PHP",
+  "type": "library",
+  "keywords": [
+    "gedcom",
+    "parser"
+  ],
+  "homepage": "http://github.com/mrkrstphr/php-gedcom",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.0, <=8.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.3",
+    "peridot-php/leo": "^1.6",
+    "peridot-php/peridot": "^1.19"
+  },
+  "autoload": {
+    "psr-4": {
+      "PhpGedcom\\": "src/"
     }
+  },
+  "scripts": {
+    "check-style": "vendor/bin/php-cs-fixer fix --dry-run --verbose --ansi",
+    "fix-style": "vendor/bin/php-cs-fixer fix",
+    "test": "vendor/bin/peridot --force-colors"
+  }
 }
