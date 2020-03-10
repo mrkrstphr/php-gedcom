@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -6,9 +7,9 @@
  * GEDCOM 5.5 files in PHP 5.3+.
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
- * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @copyright       Copyright (c) 2010-2020, Kristopher Wilson
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -38,7 +39,7 @@ class Sour
                 +3 DATE <PUBLICATION_DATE>  {0:1}
                 +3 COPR <COPYRIGHT_SOURCE_DATA>  {0:1}
         */
-        
+
         return $output;
     }
 }

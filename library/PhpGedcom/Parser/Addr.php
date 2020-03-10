@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -8,7 +9,7 @@
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
  * @package         php-gedcom
- * @license         GPL-3.0
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -28,7 +29,7 @@ class Addr extends \PhpGedcom\Parser\Component
     public static function parse(\PhpGedcom\Parser $parser)
     {
         $record = $parser->getCurrentLineRecord();
-        $depth = (int)$record[0];
+        $depth = (int) $record[0];
         $line = isset($record[2]) ? trim($record[2]) : '';
 
         $addr = new \PhpGedcom\Record\Addr();
@@ -38,7 +39,7 @@ class Addr extends \PhpGedcom\Parser\Component
         while (!$parser->eof()) {
             $record = $parser->getCurrentLineRecord();
             $recordType = strtolower(trim($record[1]));
-            $currentDepth = (int)$record[0];
+            $currentDepth = (int) $record[0];
 
             if ($currentDepth <= $depth) {
                 $parser->back();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -24,17 +25,17 @@ class Asso extends \PhpGedcom\Record implements Sourceable, Noteable
 {
     protected $_indi = null;
     protected $_rela = null;
-    
+
     /**
      *
      */
     protected $_note = array();
-    
+
     /**
      *
      */
     protected $_sour = array();
-    
+
     /**
      *
      */
@@ -42,7 +43,7 @@ class Asso extends \PhpGedcom\Record implements Sourceable, Noteable
     {
         $this->_note[] = $note;
     }
-    
+
     /**
      *
      */

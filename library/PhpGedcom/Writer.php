@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -23,9 +24,9 @@ use \PhpGedcom\Writer\Head;
 class Writer
 {
     const GEDCOM55 = 'gedcom5.5';
-    
+
     protected $_output = null;
-    
+
     /**
      *
      * @param \PhpGedcom\Gedcom $gedcom The GEDCOM object
@@ -37,7 +38,7 @@ class Writer
         $head = $gedcom->getHead();
 
         $output = Head::convert($head, $format);
-        
+
         return $output;
     }
 }

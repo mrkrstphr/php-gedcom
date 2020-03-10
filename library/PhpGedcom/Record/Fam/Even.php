@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -28,31 +29,31 @@ class Even extends \PhpGedcom\Record implements Objectable, Sourceable, Noteable
     protected $_plac = null;
     protected $_caus = null;
     protected $_age  = null;
-    
+
     protected $_addr = null;
-    
+
     protected $_phon = array();
-    
+
     protected $_agnc = null;
-    
+
     protected $_husb = null;
     protected $_wife = null;
-    
+
     /**
      *
      */
     protected $_obje = array();
-    
+
     /**
      *
      */
     protected $_sour = array();
-    
+
     /**
      *
      */
     protected $_note = array();
-    
+
     /**
      *
      */
@@ -60,7 +61,7 @@ class Even extends \PhpGedcom\Record implements Objectable, Sourceable, Noteable
     {
         $this->_phon[] = $phon;
     }
-    
+
     /**
      *
      */
@@ -68,7 +69,7 @@ class Even extends \PhpGedcom\Record implements Objectable, Sourceable, Noteable
     {
         $this->_obje[] = $obje;
     }
-    
+
     /**
      *
      */
@@ -76,7 +77,7 @@ class Even extends \PhpGedcom\Record implements Objectable, Sourceable, Noteable
     {
         $this->_sour[] = $sour;
     }
-    
+
     /**
      *
      */

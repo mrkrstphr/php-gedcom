@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -20,7 +21,7 @@ namespace PhpGedcom\Parser;
  */
 class Repo extends \PhpGedcom\Parser\Component
 {
-    
+
     /**
      *
      *
@@ -29,25 +30,25 @@ class Repo extends \PhpGedcom\Parser\Component
     {
         $record = $parser->getCurrentLineRecord();
         $identifier = $parser->normalizeIdentifier($record[1]);
-        $depth = (int)$record[0];
-        
+        $depth = (int) $record[0];
+
         $repo = new \PhpGedcom\Record\Repo();
         $repo->setRepo($identifier);
-        
+
         $parser->getGedcom()->addRepo($repo);
-        
+
         $parser->forward();
-        
+
         while (!$parser->eof()) {
             $record = $parser->getCurrentLineRecord();
-            $currentDepth = (int)$record[0];
+            $currentDepth = (int) $record[0];
             $recordType = strtoupper(trim($record[1]));
-            
+
             if ($currentDepth <= $depth) {
                 $parser->back();
                 break;
             }
-            
+
             switch ($recordType) {
                 case 'NAME':
                     $repo->setName(trim($record[2]));
@@ -78,10 +79,10 @@ class Repo extends \PhpGedcom\Parser\Component
                 default:
                     $parser->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
             }
-            
+
             $parser->forward();
         }
-        
+
         return $repo;
     }
 }

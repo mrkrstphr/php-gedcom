@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -26,17 +27,17 @@ abstract class Lds extends \PhpGedcom\Record implements Sourceable, Noteable
     protected $_date;
     protected $_plac;
     protected $_temp;
-    
+
     /**
      *
      */
     protected $_sour = array();
-    
+
     /**
      *
      */
     protected $_note = array();
-    
+
     /**
      *
      */
@@ -44,7 +45,7 @@ abstract class Lds extends \PhpGedcom\Record implements Sourceable, Noteable
     {
         $this->_sour[] = $sour;
     }
-    
+
     /**
      *
      */

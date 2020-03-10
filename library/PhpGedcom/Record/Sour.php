@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -76,12 +77,12 @@ class Sour extends Record implements Noteable, Objectable
      * @var array
      */
     protected $refn = array();
-    
+
     /**
      * @var array
      */
     protected $note = array();
-    
+
     /**
      * @var array
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -8,7 +9,7 @@
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
  * @package         php-gedcom
- * @license         GPL-3.0
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -28,7 +29,7 @@ class Indi extends \PhpGedcom\Parser\Component
     {
         $record = $parser->getCurrentLineRecord();
         $identifier = $parser->normalizeIdentifier($record[1]);
-        $depth = (int)$record[0];
+        $depth = (int) $record[0];
 
         $indi = new \PhpGedcom\Record\Indi();
         $indi->setId($identifier);
@@ -40,7 +41,7 @@ class Indi extends \PhpGedcom\Parser\Component
         while (!$parser->eof()) {
             $record = $parser->getCurrentLineRecord();
             $recordType = strtoupper(trim($record[1]));
-            $currentDepth = (int)$record[0];
+            $currentDepth = (int) $record[0];
 
             if ($currentDepth <= $depth) {
                 $parser->back();

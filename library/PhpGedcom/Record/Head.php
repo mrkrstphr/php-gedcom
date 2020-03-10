@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -25,62 +26,62 @@ class Head extends Record
      * @var Head\Sour
      */
     protected $sour = null;
-    
+
     /**
      * @var string
      */
     protected $dest = null;
-    
+
     /**
      * @var Head\Date
      */
     protected $date = null;
-    
+
     /**
      * @var string
      */
     protected $subm = null;
-    
+
     /**
      * @var string
      */
     protected $subn = null;
-    
+
     /**
      * @var string
      */
     protected $file = null;
-    
+
     /**
      * @var string
      */
     protected $copr = null;
-    
+
     /**
      * @var Head\Gedc
      */
     protected $gedc = null;
-    
+
     /**
      * @var Head\Char
      */
     protected $char = null;
-    
+
     /**
      * @var string
      */
     protected $lang = null;
-    
+
     /**
      * @var Head\Plac
      */
     protected $plac = null;
-    
+
     /**
      * @var string
      */
     protected $note = null;
-    
+
     /**
      * @param \PhpGedcom\Record\Head\Sour $sour
      * @return Head
@@ -90,7 +91,7 @@ class Head extends Record
         $this->sour = $sour;
         return $this;
     }
-    
+
     /**
      * @return \PhpGedcom\Record\Head\Sour
      */
@@ -98,7 +99,7 @@ class Head extends Record
     {
         return $this->sour;
     }
-    
+
     /**
      * @param \PhpGedcom\Record\Head\Date $date
      * @return Head
@@ -108,7 +109,7 @@ class Head extends Record
         $this->date = $date;
         return $this;
     }
-    
+
     /**
      * @return \PhpGedcom\Record\Head\Date
      */
@@ -116,7 +117,7 @@ class Head extends Record
     {
         return $this->date;
     }
-    
+
     /**
      * @param \PhpGedcom\Record\Head\Gedc $gedc
      * @return Head
@@ -126,7 +127,7 @@ class Head extends Record
         $this->gedc = $gedc;
         return $this;
     }
-    
+
     /**
      * @return \PhpGedcom\Record\Head\Gedc
      */
@@ -134,7 +135,7 @@ class Head extends Record
     {
         return $this->gedc;
     }
-    
+
     /**
      * @param \PhpGedcom\Record\Head\Char $char
      * @return Head
@@ -144,7 +145,7 @@ class Head extends Record
         $this->char = $char;
         return $this;
     }
-    
+
     /**
      * @return \PhpGedcom\Record\Head\Char
      */
@@ -152,7 +153,7 @@ class Head extends Record
     {
         return $this->char;
     }
-    
+
     /**
      * @param \PhpGedcom\Record\Head\Plac $plac
      * @return Head
@@ -162,7 +163,7 @@ class Head extends Record
         $this->plac = $plac;
         return $this;
     }
-    
+
     /**
      * @return \PhpGedcom\Record\Head\Plac
      */

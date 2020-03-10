@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -23,12 +24,12 @@ class Famc extends \PhpGedcom\Record implements Noteable
 {
     protected $_famc = null;
     protected $_pedi = null;
-    
+
     /**
      *
      */
     protected $_note = array();
-    
+
     /**
      *
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -23,37 +24,37 @@ class Parser
      *
      */
     protected $_file            = null;
-    
+
     /**
      *
      */
     protected $_gedcom          = null;
-    
+
     /**
      *
      */
     protected $_errorLog        = array();
-    
+
     /**
      *
      */
     protected $_linesParsed     = 0;
-    
+
     /**
      *
      */
     protected $_line            = '';
-    
+
     /**
      *
      */
     protected $_lineRecord      = null;
-    
+
     /**
      *
      */
     protected $_returnedLine    = '';
-    
+
     /**
      *
      */
@@ -65,7 +66,7 @@ class Parser
             $this->_gedcom = new \PhpGedcom\Gedcom();
         }
     }
-    
+
     /**
      *
      */
@@ -74,7 +75,7 @@ class Parser
         // if there was a returned line by back(), set that as our current
         // line and blank out the returnedLine variable, otherwise grab
         // the next line from the file
-        
+
         if (!empty($this->_returnedLine)) {
             $this->_line = $this->_returnedLine;
             $this->_returnedLine = '';
@@ -83,10 +84,10 @@ class Parser
             $this->_lineRecord = null;
             $this->_linesParsed++;
         }
-        
+
         return $this;
     }
-    
+
     /**
      *
      */
@@ -94,9 +95,9 @@ class Parser
     {
         // our parser object encountered a line it wasn't meant to parse
         // store this line for the previous parser to analyze
-        
+
         $this->_returnedLine = $this->_line;
-        
+
         return $this;
     }
 
@@ -113,7 +114,7 @@ class Parser
         while ($currentDepth > $level) {
             $this->forward();
             $record = $this->getCurrentLineRecord();
-            $currentDepth = (int)$record[0];
+            $currentDepth = (int) $record[0];
         }
 
         $this->back();
@@ -126,7 +127,7 @@ class Parser
     {
         return $this->_gedcom;
     }
-    
+
     /**
      *
      */
@@ -134,7 +135,7 @@ class Parser
     {
         return feof($this->_file);
     }
-    
+
     /**
      *
      * @return string
@@ -142,26 +143,26 @@ class Parser
     public function parseMultiLineRecord()
     {
         $record = $this->getCurrentLineRecord();
-        
-        $depth = (int)$record[0];
+
+        $depth = (int) $record[0];
         $data = isset($record[2]) ? trim($record[2]) : '';
-        
+
         $this->forward();
-        
+
         while (!$this->eof()) {
             $record = $this->getCurrentLineRecord();
             $recordType = strtoupper(trim($record[1]));
-            $currentDepth = (int)$record[0];
-            
+            $currentDepth = (int) $record[0];
+
             if ($currentDepth <= $depth) {
                 $this->back();
                 break;
             }
-            
+
             switch ($recordType) {
                 case 'CONT':
                     $data .= "\n";
-                    
+
                     if (isset($record[2])) {
                         $data .= trim($record[2]);
                     }
@@ -175,22 +176,22 @@ class Parser
                     $this->back();
                     break 2;
             }
-            
+
             $this->forward();
         }
-        
+
         return $data;
     }
-    
+
     /**
-     * 
+     *
      * @return string The current line
      */
     public function getCurrentLine()
     {
         return $this->_line;
     }
-    
+
     /**
      *
      */
@@ -199,18 +200,18 @@ class Parser
         if (!is_null($this->_lineRecord)) {
             return $this->_lineRecord;
         }
-        
+
         if (empty($this->_line)) {
             return false;
         }
-        
+
         $line = trim($this->_line);
-        
+
         $this->_lineRecord = explode(' ', $line, $pieces);
-        
+
         return $this->_lineRecord;
     }
-    
+
     /**
      *
      */
@@ -218,7 +219,7 @@ class Parser
     {
         $this->_errorLog[] = $error;
     }
-    
+
     /**
      *
      */
@@ -226,7 +227,7 @@ class Parser
     {
         $this->logError(
             $this->_linesParsed . ': (Unhandled) ' . trim(implode('|', $this->getCurrentLineRecord())) .
-            (!empty($additionalInfo) ? ' - ' . $additionalInfo : '')
+                (!empty($additionalInfo) ? ' - ' . $additionalInfo : '')
         );
     }
 
@@ -234,10 +235,10 @@ class Parser
     {
         $this->logError(
             $this->_linesParsed . ': (Skipping) ' . trim(implode('|', $this->getCurrentLineRecord())) .
-            (!empty($additionalInfo) ? ' - ' . $additionalInfo : '')
+                (!empty($additionalInfo) ? ' - ' . $additionalInfo : '')
         );
     }
-    
+
     /**
      *
      */
@@ -245,7 +246,7 @@ class Parser
     {
         return $this->_errorLog;
     }
-    
+
     /**
      *
      */
@@ -253,10 +254,10 @@ class Parser
     {
         $identifier = trim($identifier);
         $identifier = trim($identifier, '@');
-        
+
         return $identifier;
     }
-    
+
     /**
      *
      * @param string $fileName
@@ -265,29 +266,29 @@ class Parser
     public function parse($fileName)
     {
         $this->_file = fopen($fileName, 'r'); #explode("\n", mb_convert_encoding($contents, 'UTF-8'));
-        
+
         if (!$this->_file) {
             return null;
         }
-        
+
         $this->forward();
-        
+
         while (!$this->eof()) {
             $record = $this->getCurrentLineRecord();
-            
+
             if ($record === false) {
                 continue;
             }
-            
-            $depth = (int)$record[0];
-            
+
+            $depth = (int) $record[0];
+
             // We only process 0 level records here. Sub levels are processed
             // in methods for those data types (individuals, sources, etc)
-            
+
             if ($depth == 0) {
                 // Although not always an identifier (HEAD,TRLR):
                 $identifier = $this->normalizeIdentifier($record[1]);
-               
+
                 if (trim($record[1]) == 'HEAD') {
                     Parser\Head::parse($this);
                 } else if (isset($record[2]) && trim($record[2]) == 'SUBN') {
@@ -315,10 +316,10 @@ class Parser
             } else {
                 $this->logUnhandledRecord(get_class() . ' @ ' . __LINE__);
             }
-            
+
             $this->forward();
         }
-        
+
         return $this->getGedcom();
     }
 }

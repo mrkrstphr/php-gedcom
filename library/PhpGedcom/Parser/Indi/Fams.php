@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -8,7 +9,7 @@
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
  * @package         php-gedcom
- * @license         GPL-3.0
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -28,7 +29,7 @@ class Fams extends \PhpGedcom\Parser\Component
     public static function parse(\PhpGedcom\Parser $parser)
     {
         $record = $parser->getCurrentLineRecord();
-        $depth = (int)$record[0];
+        $depth = (int) $record[0];
 
         if (count($record) < 3) {
             $parser->logSkippedRecord('Missing family information; ' . get_class(), ' @ ' . __LINE__);
@@ -46,7 +47,7 @@ class Fams extends \PhpGedcom\Parser\Component
         while (!$parser->eof()) {
             $record = $parser->getCurrentLineRecord();
             $recordType = strtoupper(trim($record[1]));
-            $currentDepth = (int)$record[0];
+            $currentDepth = (int) $record[0];
 
             if ($currentDepth <= $depth) {
                 $parser->back();

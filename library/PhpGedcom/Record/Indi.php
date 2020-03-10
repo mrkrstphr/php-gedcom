@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -30,122 +31,122 @@ class Indi extends Record implements Noteable, Objectable, Sourceable
      * @var string
      */
     protected $id;
-    
+
     /**
      * @var string
      */
     protected $chan;
-    
+
     /**
      * @var array
      */
     protected $attr = array();
-    
+
     /**
      * @var array
      */
     protected $even = array();
-    
+
     /**
      * @var array
      */
     protected $note = array();
-    
+
     /**
      * @var array
      */
     protected $obje = array();
-    
+
     /**
      * @var array
      */
     protected $sour = array();
-    
+
     /**
      * @var array
      */
     protected $name = array();
-    
+
     /**
      * @var array
      */
     protected $alia = array();
-    
+
     /**
      *
      */
     protected $sex;
-    
+
     /**
      *
      */
     protected $rin;
-    
+
     /**
      *
      */
     protected $resn;
-    
+
     /**
      *
      */
     protected $rfn;
-    
+
     /**
      *
      */
     protected $afn;
-    
+
     /**
      * @var array
      */
     protected $fams = array();
-    
+
     /**
      * @var array
      */
     protected $famc = array();
-    
+
     /**
      * @var array
      */
     protected $asso = array();
-    
+
     /**
      * @var array
      */
     protected $subm = array();
-    
+
     /**
      * @var array
      */
     protected $anci = array();
-    
+
     /**
      * @var array
      */
     protected $desi = array();
-    
+
     /**
      * @var array
      */
     protected $refn = array();
-    
+
     /**
      * @var Indi\Bapl
      */
     protected $bapl;
-    
+
     /**
      * @var Indi\Conl
      */
     protected $conl;
-    
+
     /**
      * @var Indi\Endl
      */
     protected $endl;
-    
+
     /**
      * @var Indi\Slgc
      */

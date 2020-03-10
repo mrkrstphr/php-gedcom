@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -8,7 +9,7 @@
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
  * @package         php-gedcom
- * @license         GPL-3.0
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -26,12 +27,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      * @var \PhpGedcom\Parser
      */
     protected $parser  = null;
-    
+
     /**
      * @var \PhpGedcom\Gedcom
      */
     protected $gedcom  = null;
-    
+
     /**
      *
      */
@@ -143,9 +144,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $subm['SUBMITTER']->getAddr()->getAddr(),
             "Submitter address line 1\n" .
-            "Submitter address line 2\n" .
-            "Submitter address line 3\n" .
-            "Submitter address line 4"
+                "Submitter address line 2\n" .
+                "Submitter address line 3\n" .
+                "Submitter address line 4"
         );
 
         $this->assertEquals($subm['SUBMITTER']->getAddr()->getAdr1(), 'Submitter address line 1');
@@ -181,7 +182,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $subm['SM2']->getAddr()->getAddr(),
             "Secondary Submitter Address 1\n" .
-            "Secondary Submitter Address 2"
+                "Secondary Submitter Address 2"
         );
 
         $lang = $subm['SM2']->getLang();
@@ -196,7 +197,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $subm['SM3']->getAddr()->getAddr(),
             "email: h.eichmann@@mbox.iqo.uni-hannover.de\n" .
-            "or: heiner_eichmann@@h.maus.de (no more than 16k!!!!)"
+                "or: heiner_eichmann@@h.maus.de (no more than 16k!!!!)"
         );
         $this->assertEquals($subm['SM3']->getChan()->getDate(), '13 Jun 2000');
         $this->assertEquals($subm['SM3']->getChan()->getTime(), '17:07:32');
@@ -208,7 +209,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testIndi()
     {
-
     }
 
     /**
@@ -216,7 +216,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testFam()
     {
-
     }
 
     /**
@@ -224,7 +223,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testObje()
     {
-
     }
 
     /**
@@ -232,7 +230,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testRepo()
     {
-
     }
 
     /**

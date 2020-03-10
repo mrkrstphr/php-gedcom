@@ -1,4 +1,5 @@
 <?php
+
 /**
  * php-gedcom
  *
@@ -7,8 +8,8 @@
  *
  * @author          Kristopher Wilson <kristopherwilson@gmail.com>
  * @copyright       Copyright (c) 2010-2013, Kristopher Wilson
- * @package         php-gedcom 
- * @license         GPL-3.0
+ * @package         php-gedcom
+ * @license         MIT
  * @link            http://github.com/mrkrstphr/php-gedcom
  */
 
@@ -66,17 +67,17 @@ class Even extends Record implements Record\Objectable, Record\Sourceable, Recor
      * @var array
      */
     public $ref = array();
-    
+
     /**
      * @var array
      */
     protected $obje = array();
-    
+
     /**
      * @var array
      */
     protected $sour = array();
-    
+
     /**
      * @var array
      */
