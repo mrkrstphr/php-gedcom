@@ -57,7 +57,7 @@ abstract class Attr extends \PhpGedcom\Parser\Component
                     $attr->setType(trim($record[2]));
                     break;
                 case 'DATE':
-                    $attr->setDate(trim($record[2]));
+                    $attr->setDate(new \DateTime(trim($record[2])));
                     break;
                 case 'PLAC':
                     $plac = \PhpGedcom\Parser\Indi\Even\Plac::parse($parser);
